@@ -22,8 +22,6 @@ export default function Page() {
         <Nutricion />
         <Entrenamientos />
         <Contacto />
-        <Perfil />
-        <Carrito />
       </div>
 
       <Footer />
