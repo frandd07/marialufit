@@ -10,8 +10,8 @@ export default function Header() {
           <li><a href="#nutricion">Nutrición</a></li>
           <li><a href="#entrenamientos">Entrenamientos</a></li>
           <li><a href="#contacto">Contacto</a></li>
-          <li><a href="/perfil">Mi perfil</a></li> {/* Página de perfil */}
-          <li><a href="/carrito">Mi carrito</a></li> {/* Página de carrito */}
+          <li><a href="../login">Mi perfil</a></li> 
+          <li><a href="/carrito">Mi carrito</a></li>
         </ul>
       </nav>
     </header>
