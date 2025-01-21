@@ -5,9 +5,9 @@ export default function Header() {
         <header>
             <nav>
                 <ul>
-                    <li><Link href="/entreno">Tabla de Entreno</Link></li>
-                    <li><Link href="/dieta">Dieta</Link></li>
-                    <li><Link href="/medidas">Medidas Corporales</Link></li>
+                    <li><Link href="/usuario/entreno">Tabla de Entreno</Link></li>
+                    <li><Link href="/usuario/dieta">Dieta</Link></li>
+                    <li><Link href="/usuario/medidas">Medidas Corporales</Link></li>
                 </ul>
             </nav>
         </header>
