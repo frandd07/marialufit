@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { LOGIN, REGISTER } from "../api/login/route";
 
 export default function AuthPage() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter(); // Hook para redirección
 
     async function handleAuth(e) {
         e.preventDefault();
@@ -26,6 +28,7 @@ export default function AuthPage() {
                     alert("Error al iniciar sesión: " + error.message);
                 } else {
                     alert("Sesión iniciada con éxito.");
+                    router.push("/usuario/entreno"); // Redirige al usuario a /dashboard
                 }
             }
         } else {
