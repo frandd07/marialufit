@@ -28,7 +28,7 @@ export default function AuthPage() {
                     alert("Error al iniciar sesión: " + error.message);
                 } else {
                     alert("Sesión iniciada con éxito.");
-                    router.push("/usuario/entreno"); // Redirige al usuario a /dashboard
+                    router.push("/usuario/medidas"); // Redirige al usuario a /dashboard
                 }
             }
         } else {
