@@ -1,11 +1,15 @@
 'use client'
-
 import { createClient } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '../Header';
 import Footer from '../Footer';
 import { SAVE_MEASURE, GET_MEASURES } from '../../api/usuario/medidas/route.js'; // Ajuste la ruta
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+
+// Registra los componentes de Chart.js
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const supabaseUrl = 'https://yyygruoaphtgzslboctz.supabase.co';
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
@@ -15,27 +19,35 @@ export default function Page() {
   const [peso, setPeso] = useState('');
   const [fecha, setFecha] = useState('');
   const [measures, setMeasures] = useState([]);
-  const [session, setSession] = useState(null); // Guardar la sesión aquí
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: 'Peso',
+        data: [],
+        borderColor: 'rgba(75,192,192,1)',
+        backgroundColor: 'rgba(75,192,192,0.2)',
+        fill: true,
+      },
+    ],
+  });
+  const [session, setSession] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Recuperar la sesión al cargar el componente
     async function fetchSession() {
       const { data } = await supabase.auth.getSession();
-      setSession(data?.session || null); // Asegurarse de que data y session no sean undefined
+      setSession(data?.session || null);
     }
+    fetchSession();
 
-    fetchSession(); // Llamamos a la función para obtener la sesión
-
-    // Escuchar los cambios en la sesión
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       if (!session) {
-        router.push('/login'); // Redirigir al login si no hay sesión
+        router.push('/login');
       }
     });
 
-    // Limpiar el listener al desmontar el componente
     return () => {
         if (authListener && typeof authListener.remove === 'function') {
           authListener.remove(); // Eliminar el listener si es una función válida
@@ -45,10 +57,31 @@ export default function Page() {
 
   useEffect(() => {
     if (session) {
-      // Cuando el usuario esté logueado, obtenemos sus medidas
       getMeasures(session.user.id);
     }
   }, [session]);
+
+  useEffect(() => {
+    if (measures.length > 0) {
+      const sortedMeasures = measures.sort((a, b) => new Date(a.fecha) - new Date(b.fecha)); // Ordena las medidas por fecha
+      const dates = sortedMeasures.map((measure) => measure.fecha);
+      const weights = sortedMeasures.map((measure) => measure.peso);
+  
+      setChartData({
+        labels: dates,
+        datasets: [
+          {
+            label: 'Peso',
+            data: weights,
+            borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(75,192,192,0.2)',
+            fill: true,
+          },
+        ],
+      });
+    }
+  }, [measures]);
+  
 
   async function handleSaveMeasure(e) {
     e.preventDefault();
@@ -58,7 +91,7 @@ export default function Page() {
         alert('Error al guardar la medida: ' + error.message);
       } else {
         alert('Medida guardada exitosamente.');
-        getMeasures(session.user.id); // Actualiza las medidas visibles
+        getMeasures(session.user.id);
       }
     } else {
       alert('Por favor, completa todos los campos.');
@@ -70,7 +103,7 @@ export default function Page() {
     if (error) {
       alert('Error al obtener las medidas.');
     } else {
-      setMeasures(data); // Muestra las medidas del usuario
+      setMeasures(data);
     }
   }
 
@@ -127,6 +160,9 @@ export default function Page() {
       ) : (
         <p>No has registrado ninguna medida aún.</p>
       )}
+
+      <h2>Gráfica de Pesos</h2>
+      <Line data={chartData} />
       <Footer />
     </div>
   );
