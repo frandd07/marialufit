@@ -32,7 +32,7 @@ export async function LOGIN({ email, password }) {
     .eq("email", email)
     .single();
 
-  if (adminError) return { error: adminError };
+  if (adminError) return { data };
 
   return { data, admin: adminData?.admin };
 }
