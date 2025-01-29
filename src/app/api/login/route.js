@@ -6,13 +6,26 @@ const supabaseKey =
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function REGISTER({ email, password }) {
+  // Registro en Supabase Authentication
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
+
   if (error) return { error };
 
+  // Obtener el uid del usuario registrado
+  const uid = data.user.id;
+
+  // Insertar en la tabla "admin" (opcional, según tu estructura)
   await supabase.from("admin").insert([{ email, admin: false }]);
+
+  // Insertar en la tabla "usuario" con el correo y el fk_id vinculado al uid
+  const { error: insertError } = await supabase.from("usuario").insert([
+    { correo: email, fk_id: uid }, // Insertamos tanto el correo como el fk_id
+  ]);
+
+  if (insertError) return { error: insertError };
 
   return { data };
 }
