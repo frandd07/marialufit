@@ -30,15 +30,13 @@ export default function Page() {
           <tr>
             <th>ID</th>
             <th>Correo</th>
-            <th>Creado el</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
               <td>{user.id}</td>
-              <td>{user.email}</td>
-              <td>{new Date(user.created_at).toLocaleDateString()}</td>
+              <td>{user.correo}</td>
             </tr>
           ))}
         </tbody>

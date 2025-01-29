@@ -8,7 +8,11 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
 });
 
 export async function GET_USERS() {
-  const { data, error } = await supabase.auth.admin.listUsers();
-  if (error) return { error };
-  return { data: data.users }; // Devuelve solo la lista de usuarios
+  const { data, error } = await supabase.from("usuario").select("*");
+
+  if (error) {
+    return { error };
+  }
+
+  return { data }; // Devuelve todos los usuarios de la tabla 'usuario'
 }
