@@ -29,7 +29,7 @@ export default function AuthPage() {
         } else {
           alert("Sesión iniciada con éxito.");
           if (admin) {
-            router.push("/usuario/entreno");
+            router.push("/admin");
           } else {
             router.push("/usuario/medidas");
           }

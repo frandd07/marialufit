@@ -12,7 +12,6 @@ export async function REGISTER({ email, password }) {
   });
   if (error) return { error };
 
-  // Añadir usuario a la tabla admin con admin=false por defecto
   await supabase.from("admin").insert([{ email, admin: false }]);
 
   return { data };
