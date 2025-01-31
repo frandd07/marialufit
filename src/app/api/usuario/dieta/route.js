@@ -40,3 +40,39 @@ export async function POST(request) {
 
   return Response.json({ data }, { status: 201 });
 }
+
+// Editar una comida existente
+export async function PUT(request) {
+  const { id, comida, momento } = await request.json();
+
+  if (!id || !comida || !momento) {
+    return Response.json({ error: "Datos incompletos" }, { status: 400 });
+  }
+
+  const { data, error } = await supabase
+    .from("dieta")
+    .update({ comida, momento })
+    .eq("id", id);
+
+  if (error) return Response.json({ error }, { status: 500 });
+
+  return Response.json({ data }, { status: 200 });
+}
+
+// Eliminar una comida
+export async function DELETE(request) {
+  const { id } = await request.json();
+
+  if (!id) {
+    return Response.json({ error: "Falta el ID" }, { status: 400 });
+  }
+
+  const { error } = await supabase.from("dieta").delete().eq("id", id);
+
+  if (error) return Response.json({ error }, { status: 500 });
+
+  return Response.json(
+    { message: "Comida eliminada correctamente" },
+    { status: 200 }
+  );
+}
