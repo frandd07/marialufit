@@ -27,20 +27,36 @@ export async function GET(request) {
   return Response.json({ data }, { status: 200 });
 }
 
-// Asignar nueva comida a una semana y día específicos con ingredientes
 export async function POST(request) {
-  const { usuario_id, comida, ingredientes, momento, semana, dia } =
-    await request.json();
+  try {
+    const body = await request.json();
+    console.log("Datos recibidos en la API:", body);
 
-  if (!usuario_id || !comida || !momento || !semana || !dia) {
-    return Response.json({ error: "Datos incompletos" }, { status: 400 });
+    const { usuario_id, comida, ingredientes, momento, semana, dia } = body;
+
+    if (!usuario_id || !comida || !momento || !semana || !dia) {
+      console.error("Error: Datos incompletos");
+      return Response.json(
+        { error: "Datos incompletos", received: body },
+        { status: 400 }
+      );
+    }
+
+    const { data, error } = await supabase
+      .from("dieta")
+      .insert([{ usuario_id, comida, ingredientes, momento, semana, dia }]);
+
+    if (error) {
+      console.error("Error en Supabase:", error);
+      return Response.json({ error: error.message }, { status: 500 });
+    }
+
+    return Response.json({ data }, { status: 201 });
+  } catch (err) {
+    console.error("Error en el servidor:", err);
+    return Response.json(
+      { error: "Error interno del servidor" },
+      { status: 500 }
+    );
   }
-
-  const { data, error } = await supabase
-    .from("dieta")
-    .insert([{ usuario_id, comida, ingredientes, momento, semana, dia }]);
-
-  if (error) return Response.json({ error }, { status: 500 });
-
-  return Response.json({ data }, { status: 201 });
 }

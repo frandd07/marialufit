@@ -44,22 +44,27 @@ export default function DietaPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const url = "/api/usuario/dieta";
-    const method = editingId ? "PUT" : "POST";
 
-    const res = await fetch(url, {
-      method,
+    const requestBody = {
+      usuario_id: id,
+      comida,
+      ingredientes,
+      momento,
+      semana,
+      dia,
+      id: editingId,
+    };
+
+    console.log("Enviando datos:", requestBody); // Debugging
+
+    const res = await fetch("/api/usuario/dieta", {
+      method: editingId ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        usuario_id: id,
-        comida,
-        ingredientes,
-        momento,
-        semana,
-        dia,
-        id: editingId,
-      }),
+      body: JSON.stringify(requestBody),
     });
+
+    const responseData = await res.json();
+    console.log("Respuesta del servidor:", responseData); // Debugging
 
     if (res.ok) {
       alert(editingId ? "Dieta actualizada" : "Dieta asignada");
