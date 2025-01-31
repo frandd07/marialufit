@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation"; // Para navegación
 import { GET_USERS } from "../api/admin/route";
 
 export default function Page() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchUsers() {
@@ -30,6 +32,7 @@ export default function Page() {
           <tr>
             <th>ID</th>
             <th>Correo</th>
+            <th>Acción</th>
           </tr>
         </thead>
         <tbody>
@@ -37,6 +40,13 @@ export default function Page() {
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.correo}</td>
+              <td>
+                <button
+                  onClick={() => router.push(`/usuario/dieta/${user.id}`)}
+                >
+                  Asignar Dieta
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
