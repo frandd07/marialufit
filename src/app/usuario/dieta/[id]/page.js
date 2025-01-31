@@ -4,13 +4,23 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 export default function DietaPage() {
-  const { id } = useParams(); // Obtiene el ID del usuario desde la URL
-  const [dietas, setDietas] = useState([]); // Lista de comidas
-  const [comida, setComida] = useState(""); // Estado para el input de comida
-  const [momento, setMomento] = useState(""); // Estado para el input de momento
-  const [editingId, setEditingId] = useState(null); // ID de la comida que se está editando
+  const { id } = useParams();
+  const [dietas, setDietas] = useState([]);
+  const [comida, setComida] = useState("");
+  const [ingredientes, setIngredientes] = useState(""); // Nuevo campo opcional
+  const [momento, setMomento] = useState("desayuno");
+  const [editingId, setEditingId] = useState(null);
 
-  // Obtener la dieta del usuario desde la API
+  const opcionesMomento = [
+    "desayuno",
+    "almuerzo",
+    "merienda",
+    "cena",
+    "snack",
+    "pre-entreno",
+    "post-entreno",
+  ];
+
   useEffect(() => {
     fetchDietas();
   }, [id]);
@@ -21,7 +31,6 @@ export default function DietaPage() {
     setDietas(data || []);
   }
 
-  // Enviar nueva comida o actualizar una existente
   async function handleSubmit(e) {
     e.preventDefault();
     const url = "/api/usuario/dieta";
@@ -30,21 +39,27 @@ export default function DietaPage() {
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario_id: id, comida, momento, id: editingId }),
+      body: JSON.stringify({
+        usuario_id: id,
+        comida,
+        ingredientes,
+        momento,
+        id: editingId,
+      }),
     });
 
     if (res.ok) {
       alert(editingId ? "Dieta actualizada" : "Dieta asignada");
       setComida("");
-      setMomento("");
-      setEditingId(null); // Salir del modo edición
-      fetchDietas(); // Recargar la lista de comidas
+      setIngredientes(""); // Limpia ingredientes después de enviar
+      setMomento("desayuno");
+      setEditingId(null);
+      fetchDietas();
     } else {
       alert("Error al asignar/actualizar la dieta");
     }
   }
 
-  // Función para eliminar una comida
   async function handleDelete(dietaId) {
     if (!confirm("¿Seguro que quieres eliminar esta comida?")) return;
 
@@ -56,15 +71,15 @@ export default function DietaPage() {
 
     if (res.ok) {
       alert("Comida eliminada");
-      fetchDietas(); // Recargar la lista de comidas
+      fetchDietas();
     } else {
       alert("Error al eliminar la comida");
     }
   }
 
-  // Función para editar una comida (cargar datos en el formulario)
   function handleEdit(dieta) {
     setComida(dieta.comida);
+    setIngredientes(dieta.ingredientes || ""); // Si es null, se pone vacío
     setMomento(dieta.momento);
     setEditingId(dieta.id);
   }
@@ -75,7 +90,6 @@ export default function DietaPage() {
         {editingId ? "Editar Dieta" : "Asignar Dieta"} - Usuario {id}
       </h1>
 
-      {/* Formulario para agregar/editar comidas */}
       <form onSubmit={handleSubmit}>
         <label>Comida:</label>
         <input
@@ -85,13 +99,25 @@ export default function DietaPage() {
           required
         />
 
-        <label>Momento:</label>
+        <label>Ingredientes (Opcional):</label>
         <input
           type="text"
+          value={ingredientes}
+          onChange={(e) => setIngredientes(e.target.value)}
+        />
+
+        <label>Momento:</label>
+        <select
           value={momento}
           onChange={(e) => setMomento(e.target.value)}
           required
-        />
+        >
+          {opcionesMomento.map((opcion) => (
+            <option key={opcion} value={opcion}>
+              {opcion.charAt(0).toUpperCase() + opcion.slice(1)}
+            </option>
+          ))}
+        </select>
 
         <button type="submit">{editingId ? "Actualizar" : "Asignar"}</button>
         {editingId && (
@@ -100,7 +126,8 @@ export default function DietaPage() {
             onClick={() => {
               setEditingId(null);
               setComida("");
-              setMomento("");
+              setIngredientes("");
+              setMomento("desayuno");
             }}
           >
             Cancelar
@@ -108,11 +135,11 @@ export default function DietaPage() {
         )}
       </form>
 
-      {/* Tabla con las comidas asignadas */}
       <table border="1">
         <thead>
           <tr>
             <th>Comida</th>
+            <th>Ingredientes</th>
             <th>Momento</th>
             <th>Acciones</th>
           </tr>
@@ -121,6 +148,7 @@ export default function DietaPage() {
           {dietas.map((dieta) => (
             <tr key={dieta.id}>
               <td>{dieta.comida}</td>
+              <td>{dieta.ingredientes || "—"}</td>
               <td>{dieta.momento}</td>
               <td>
                 <button onClick={() => handleEdit(dieta)}>Editar</button>
