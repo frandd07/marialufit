@@ -41,9 +41,7 @@ export default function Page() {
               <td>{user.id}</td>
               <td>{user.correo}</td>
               <td>
-                <button
-                  onClick={() => router.push(`/usuario/dieta/${user.id}`)}
-                >
+                <button onClick={() => router.push(`/admin/dieta/${user.id}`)}>
                   Asignar Dieta
                 </button>
               </td>

@@ -1,32 +1,50 @@
-'use client'
-import { createClient } from '@supabase/supabase-js';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Header from '../Header';
-import Footer from '../Footer';
-import { SAVE_MEASURE, GET_MEASURES } from '../../api/usuario/medidas/route.js'; // Ajuste la ruta
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+"use client";
+import { createClient } from "@supabase/supabase-js";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Header from "@/app/principal/Header.js";
+import Footer from "@/app/principal/Footer.js";
+import { SAVE_MEASURE, GET_MEASURES } from "../../api/usuario/medidas/route.js"; // Ajuste la ruta
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
 // Registra los componentes de Chart.js
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-const supabaseUrl = 'https://yyygruoaphtgzslboctz.supabase.co';
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
+const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Page() {
-  const [peso, setPeso] = useState('');
-  const [fecha, setFecha] = useState('');
+  const [peso, setPeso] = useState("");
+  const [fecha, setFecha] = useState("");
   const [measures, setMeasures] = useState([]);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
       {
-        label: 'Peso',
+        label: "Peso",
         data: [],
-        borderColor: 'rgba(75,192,192,1)',
-        backgroundColor: 'rgba(75,192,192,0.2)',
+        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "rgba(75,192,192,0.2)",
         fill: true,
       },
     ],
@@ -41,19 +59,21 @@ export default function Page() {
     }
     fetchSession();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      setSession(session);
-      if (!session) {
-        router.push('/login');
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        if (!session) {
+          router.push("/login");
+        }
       }
-    });
+    );
 
     return () => {
-        if (authListener && typeof authListener.remove === 'function') {
-          authListener.remove(); // Eliminar el listener si es una función válida
-        }
-      };
-    }, [router]);
+      if (authListener && typeof authListener.remove === "function") {
+        authListener.remove(); // Eliminar el listener si es una función válida
+      }
+    };
+  }, [router]);
 
   useEffect(() => {
     if (session) {
@@ -63,45 +83,46 @@ export default function Page() {
 
   useEffect(() => {
     if (measures.length > 0) {
-      const sortedMeasures = measures.sort((a, b) => new Date(a.fecha) - new Date(b.fecha)); // Ordena las medidas por fecha
+      const sortedMeasures = measures.sort(
+        (a, b) => new Date(a.fecha) - new Date(b.fecha)
+      ); // Ordena las medidas por fecha
       const dates = sortedMeasures.map((measure) => measure.fecha);
       const weights = sortedMeasures.map((measure) => measure.peso);
-  
+
       setChartData({
         labels: dates,
         datasets: [
           {
-            label: 'Peso',
+            label: "Peso",
             data: weights,
-            borderColor: 'rgba(75,192,192,1)',
-            backgroundColor: 'rgba(75,192,192,0.2)',
+            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: "rgba(75,192,192,0.2)",
             fill: true,
           },
         ],
       });
     }
   }, [measures]);
-  
 
   async function handleSaveMeasure(e) {
     e.preventDefault();
     if (session && peso && fecha) {
       const { error } = await SAVE_MEASURE(session.user.id, peso, fecha);
       if (error) {
-        alert('Error al guardar la medida: ' + error.message);
+        alert("Error al guardar la medida: " + error.message);
       } else {
-        alert('Medida guardada exitosamente.');
+        alert("Medida guardada exitosamente.");
         getMeasures(session.user.id);
       }
     } else {
-      alert('Por favor, completa todos los campos.');
+      alert("Por favor, completa todos los campos.");
     }
   }
 
   async function getMeasures(userId) {
     const { data, error } = await GET_MEASURES(userId);
     if (error) {
-      alert('Error al obtener las medidas.');
+      alert("Error al obtener las medidas.");
     } else {
       setMeasures(data);
     }

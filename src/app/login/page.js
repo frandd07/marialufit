@@ -31,7 +31,7 @@ export default function AuthPage() {
           if (admin) {
             router.push("/admin");
           } else {
-            router.push("/usuario/medidas");
+            router.push("/admin/medidas");
           }
         }
       }
