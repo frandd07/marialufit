@@ -7,6 +7,7 @@ export default function DietaPage() {
   const { id } = useParams();
   const [dietas, setDietas] = useState([]);
   const [comida, setComida] = useState("");
+  const [ingredientes, setIngredientes] = useState("");
   const [momento, setMomento] = useState("desayuno");
   const [semana, setSemana] = useState(1);
   const [dia, setDia] = useState(1);
@@ -34,7 +35,6 @@ export default function DietaPage() {
     const organizedData = data.reduce((acc, item) => {
       if (!acc[item.semana]) acc[item.semana] = {};
       if (!acc[item.semana][item.dia]) acc[item.semana][item.dia] = [];
-
       acc[item.semana][item.dia].push(item);
       return acc;
     }, {});
@@ -53,6 +53,7 @@ export default function DietaPage() {
       body: JSON.stringify({
         usuario_id: id,
         comida,
+        ingredientes,
         momento,
         semana,
         dia,
@@ -63,6 +64,7 @@ export default function DietaPage() {
     if (res.ok) {
       alert(editingId ? "Dieta actualizada" : "Dieta asignada");
       setComida("");
+      setIngredientes("");
       setMomento("desayuno");
       setSemana(1);
       setDia(1);
@@ -84,6 +86,13 @@ export default function DietaPage() {
           value={comida}
           onChange={(e) => setComida(e.target.value)}
           required
+        />
+
+        <label>Ingredientes:</label>
+        <input
+          type="text"
+          value={ingredientes}
+          onChange={(e) => setIngredientes(e.target.value)}
         />
 
         <label>Momento:</label>
@@ -132,7 +141,13 @@ export default function DietaPage() {
               <ul>
                 {dietas[week][day].map((dieta) => (
                   <li key={dieta.id}>
-                    {dieta.momento.toUpperCase()}: {dieta.comida}
+                    <strong>{dieta.momento.toUpperCase()}:</strong>{" "}
+                    {dieta.comida} <br />
+                    <small>
+                      <em>
+                        Ingredientes: {dieta.ingredientes || "No especificado"}
+                      </em>
+                    </small>
                   </li>
                 ))}
               </ul>
