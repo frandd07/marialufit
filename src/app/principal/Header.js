@@ -29,9 +29,9 @@ export default function Header() {
 
           <a className="navbar-brand mx-auto" href="#">
             <img
-              src="/path_to_logo"
+              src="/images/logo.png"
               alt="MarialuFit Logo"
-              style={{ height: "50px" }}
+              style={{ height: "80px" }}
             />
           </a>
 
