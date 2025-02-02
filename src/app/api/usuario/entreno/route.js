@@ -1,3 +1,4 @@
+// Backend actualizado para filtrar por mes y año
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
@@ -7,14 +8,15 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const user_uuid = searchParams.get("id"); // Recibimos el UUID del usuario
+  const user_uuid = searchParams.get("id");
+  const mes = searchParams.get("mes");
+  const año = searchParams.get("año");
 
-  // Primero, buscamos el ID numérico en la tabla usuario usando el fk_id
   const { data: userData, error: userError } = await supabase
     .from("usuario")
     .select("id")
     .eq("fk_id", user_uuid)
-    .single(); // Usamos single() para obtener solo un resultado
+    .single();
 
   if (userError || !userData) {
     console.error("Usuario no encontrado:", userError?.message);
@@ -23,14 +25,14 @@ export async function GET(request) {
     });
   }
 
-  const usuario_id = userData.id; // Aquí obtenemos el ID numérico (por ejemplo, 3)
-  console.log("ID numérico del usuario:", usuario_id);
+  const usuario_id = userData.id;
 
-  // Ahora, buscamos los entrenos usando el ID numérico
   const { data: entrenos, error: entrenoError } = await supabase
     .from("entreno")
     .select("*")
-    .eq("usuario_id", usuario_id); // Filtramos por el ID numérico
+    .eq("usuario_id", usuario_id)
+    .eq("mes", mes)
+    .eq("año", año);
 
   if (entrenoError) {
     console.error("Error al obtener entrenos:", entrenoError.message);
@@ -40,22 +42,4 @@ export async function GET(request) {
   }
 
   return new Response(JSON.stringify({ data: entrenos }), { status: 200 });
-}
-// Actualizar pesos, repeticiones_usuario y observaciones
-export async function PUT(request) {
-  const body = await request.json();
-  const { id, pesos, repeticiones_usuario, observaciones } = body;
-
-  const { data, error } = await supabase
-    .from("entreno")
-    .update({ pesos, repeticiones_usuario, observaciones })
-    .eq("id", id);
-
-  if (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-    });
-  }
-
-  return new Response(JSON.stringify({ data }), { status: 200 });
 }
