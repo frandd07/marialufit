@@ -2,8 +2,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/app/principal/Header.js";
-import Footer from "@/app/principal/Footer.js";
+import Header from "../Header.js";
+import Footer from "../Footer.js";
 import { SAVE_MEASURE, GET_MEASURES } from "../../api/usuario/medidas/route.js"; // Ajuste la ruta
 import { Line } from "react-chartjs-2";
 import {
