@@ -32,7 +32,7 @@ export default function Page() {
           <tr>
             <th>ID</th>
             <th>Correo</th>
-            <th>Acción</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +43,12 @@ export default function Page() {
               <td>
                 <button onClick={() => router.push(`/admin/dieta/${user.id}`)}>
                   Asignar Dieta
+                </button>
+                <button
+                  onClick={() => router.push(`/admin/entreno/${user.id}`)}
+                  style={{ marginLeft: "10px" }}
+                >
+                  Asignar Entreno
                 </button>
               </td>
             </tr>
