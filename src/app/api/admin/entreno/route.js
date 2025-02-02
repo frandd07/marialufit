@@ -4,15 +4,20 @@ const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
 const supabase = createClient(supabaseUrl, supabaseKey);
-// Obtener entrenos asignados a un usuario
+
+// Obtener entrenos asignados a un usuario filtrados por mes y año
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const usuario_id = searchParams.get("id");
+  const mes = searchParams.get("mes");
+  const año = searchParams.get("año");
 
   const { data, error } = await supabase
     .from("entreno")
     .select("*")
-    .eq("usuario_id", usuario_id);
+    .eq("usuario_id", usuario_id)
+    .eq("mes", mes)
+    .eq("año", año);
 
   if (error) {
     return new Response(JSON.stringify({ error: error.message }), {
@@ -30,14 +35,18 @@ export async function POST(request) {
     usuario_id,
     semana,
     dia,
+    mes,
+    año,
     nombre,
     grupo_muscular,
     series,
-    repes, // Añadido para las repeticiones que asigna el admin
-    repeticiones_usuario, // Renombrado para las que completará el usuario
+    repes, // Repeticiones asignadas por el admin
+    repeticiones_usuario, // Repeticiones que completara el usuario
     tut,
     rir,
     descanso,
+    pesos,
+    observaciones,
   } = body;
 
   const { data, error } = await supabase.from("entreno").insert([
@@ -45,14 +54,18 @@ export async function POST(request) {
       usuario_id,
       semana,
       dia,
+      mes,
+      año,
       nombre,
       grupo_muscular,
       series,
-      repes, // Añadido correctamente
-      repeticiones_usuario, // Usado el nuevo nombre
+      repes,
+      repeticiones_usuario,
       tut,
       rir,
       descanso,
+      pesos,
+      observaciones,
     },
   ]);
 

@@ -15,14 +15,20 @@ export default function EntrenoPage() {
   const [descanso, setDescanso] = useState(60);
   const [semana, setSemana] = useState(1);
   const [dia, setDia] = useState(1);
+  const [mes, setMes] = useState(new Date().getMonth() + 1);
+  const [año, setAño] = useState(new Date().getFullYear());
   const [editingId, setEditingId] = useState(null);
+  const [mesSeleccionado, setMesSeleccionado] = useState(mes);
+  const [añoSeleccionado, setAñoSeleccionado] = useState(año);
 
   useEffect(() => {
     fetchEntrenos();
-  }, [id]);
+  }, [id, mesSeleccionado, añoSeleccionado]);
 
   async function fetchEntrenos() {
-    const res = await fetch(`/api/admin/entreno?id=${id}`);
+    const res = await fetch(
+      `/api/admin/entreno?id=${id}&mes=${mesSeleccionado}&año=${añoSeleccionado}`
+    );
     const { data } = await res.json();
     const organizedData = organizeEntrenos(data);
     setEntrenos(organizedData);
@@ -52,6 +58,8 @@ export default function EntrenoPage() {
       descanso,
       semana,
       dia,
+      mes,
+      año,
       id: editingId,
     };
 
@@ -80,6 +88,8 @@ export default function EntrenoPage() {
     setDescanso(60);
     setSemana(1);
     setDia(1);
+    setMes(new Date().getMonth() + 1);
+    setAño(new Date().getFullYear());
     setEditingId(null);
   }
 
@@ -159,10 +169,47 @@ export default function EntrenoPage() {
           required
         />
 
+        <label>Mes:</label>
+        <input
+          type="number"
+          min="1"
+          max="12"
+          value={mes}
+          onChange={(e) => setMes(Number(e.target.value))}
+          required
+        />
+
+        <label>Año:</label>
+        <input
+          type="number"
+          min="2020"
+          value={año}
+          onChange={(e) => setAño(Number(e.target.value))}
+          required
+        />
+
         <button type="submit">{editingId ? "Actualizar" : "Asignar"}</button>
       </form>
 
       <h2>Entrenos Asignados</h2>
+
+      <label>Seleccionar Mes:</label>
+      <input
+        type="number"
+        min="1"
+        max="12"
+        value={mesSeleccionado}
+        onChange={(e) => setMesSeleccionado(Number(e.target.value))}
+      />
+
+      <label>Seleccionar Año:</label>
+      <input
+        type="number"
+        min="2020"
+        value={añoSeleccionado}
+        onChange={(e) => setAñoSeleccionado(Number(e.target.value))}
+      />
+
       {Object.keys(entrenos).map((semana) => (
         <div key={semana}>
           <h3>Semana {semana}</h3>
@@ -182,6 +229,9 @@ export default function EntrenoPage() {
                     <th>TUT (seg)</th>
                     <th>RIR</th>
                     <th>Descanso (seg)</th>
+                    <th>Pesos (kg)</th>
+                    <th>Repeticiones Usuario</th>
+                    <th>Observaciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -194,6 +244,9 @@ export default function EntrenoPage() {
                       <td>{entreno.tut}</td>
                       <td>{entreno.rir}</td>
                       <td>{entreno.descanso}</td>
+                      <td>{entreno.pesos || "-"}</td>
+                      <td>{entreno.repeticiones_usuario || "-"}</td>
+                      <td>{entreno.observaciones || "-"}</td>
                     </tr>
                   ))}
                 </tbody>
