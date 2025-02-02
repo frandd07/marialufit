@@ -1,15 +1,14 @@
-'use client'
-import React from 'react';
-import QuienSoy from './QUIENSOY';
-import Objetivos from './OBJETIVOS';
-import Nutricion from './NUTRICION';
-import Entrenamientos from './ENTRENAMIENTOS';
-import Contacto from './CONTACTO';
-import Perfil from './PERFIL';
-import Carrito from './CARRITO';
-import Header from './HEADER';
-import Footer from './FOOTER';
-import Link from 'next/link';
+"use client";
+import React from "react";
+import QuienSoy from "./QuienSoy";
+import Objetivos from "./Objetivos";
+import Nutricion from "./Nutricion";
+import Entrenamientos from "./Entrenamientos";
+import Contacto from "./Contacto";
+import Perfil from "./Perfil";
+import Header from "./Header";
+import Footer from "./Footer";
+import Link from "next/link";
 
 export default function Page() {
   return (
