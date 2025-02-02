@@ -46,35 +46,81 @@ export default function DietaPage() {
 
   if (dietas.length === 0) return <p>No tienes dietas asignadas.</p>;
 
+  // Agrupar las dietas por semana y día
+  const dietasAgrupadas = dietas.reduce((acc, dieta) => {
+    if (!acc[dieta.semana]) acc[dieta.semana] = {};
+    if (!acc[dieta.semana][dieta.dia]) acc[dieta.semana][dieta.dia] = [];
+    acc[dieta.semana][dieta.dia].push(dieta);
+    return acc;
+  }, {});
+
   return (
     <div>
       <Header />
       <h1>Tu Dieta</h1>
-      {dietas.map((dieta, index) => (
-        <div
-          key={index}
-          style={{
-            border: "1px solid #ddd",
-            padding: "10px",
-            margin: "10px 0",
-          }}
-        >
-          <h2>
-            Semana {dieta.semana}, Día {dieta.dia} - {dieta.momento}
-          </h2>
-          <p>
-            <strong>Comida:</strong>{" "}
-            {dieta.comida ? dieta.comida : "Sin nombre disponible"}
-          </p>
-          <p>
-            <strong>Ingredientes:</strong>{" "}
-            {dieta.ingredientes
-              ? dieta.ingredientes
-              : "No hay ingredientes disponibles"}
-          </p>
-        </div>
-      ))}
-
+      {Object.keys(dietasAgrupadas)
+        .sort((a, b) => a - b)
+        .map((semana) => (
+          <div key={semana} style={{ marginBottom: "20px" }}>
+            <h2>Semana {semana}</h2>
+            {Object.keys(dietasAgrupadas[semana])
+              .sort((a, b) => a - b)
+              .map((dia) => (
+                <div
+                  key={dia}
+                  style={{ marginLeft: "20px", marginBottom: "10px" }}
+                >
+                  <h3>Día {dia}</h3>
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <thead>
+                      <tr>
+                        <th
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          Momento
+                        </th>
+                        <th
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          Comida
+                        </th>
+                        <th
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          Ingredientes
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dietasAgrupadas[semana][dia].map((dieta, index) => (
+                        <tr key={index}>
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {dieta.momento}
+                          </td>
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {dieta.comida
+                              ? dieta.comida
+                              : "Sin nombre disponible"}
+                          </td>
+                          <td
+                            style={{ border: "1px solid #ddd", padding: "8px" }}
+                          >
+                            {dieta.ingredientes
+                              ? dieta.ingredientes
+                              : "No hay ingredientes disponibles"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+          </div>
+        ))}
       <Footer />
     </div>
   );

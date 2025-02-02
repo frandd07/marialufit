@@ -28,7 +28,7 @@ export default function DietaPage() {
   }, [id]);
 
   async function fetchDietas() {
-    const res = await fetch(`/api/usuario/dieta?id=${id}`);
+    const res = await fetch(`/api/admin/dieta?id=${id}`);
     const { data } = await res.json();
 
     // Organizar por semana y día
@@ -57,7 +57,7 @@ export default function DietaPage() {
 
     console.log("Enviando datos:", requestBody); // Debugging
 
-    const res = await fetch("/api/usuario/dieta", {
+    const res = await fetch("/api/admin/dieta", {
       method: editingId ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
