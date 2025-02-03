@@ -1,27 +1,36 @@
 "use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  GET_USERS,
+  TOGGLE_USER_ACTIVE,
+  CREATE_KEY,
+  GET_KEYS,
+  DELETE_KEY,
+} from "../api/admin/route";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../adminstyle.css";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Para navegación
-import { GET_USERS, TOGGLE_USER_ACTIVE } from "../api/admin/route";
-
 export default function Page() {
   const [users, setUsers] = useState([]);
+  const [keys, setKeys] = useState([]); // Estado para las claves
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchUsers() {
-      const { data, error } = await GET_USERS();
-      if (error) {
-        alert("Error al obtener usuarios: " + error.message);
-      } else {
-        setUsers(data);
-      }
+    async function fetchData() {
+      const { data: usersData, error: usersError } = await GET_USERS();
+      const { data: keysData, error: keysError } = await GET_KEYS();
+
+      if (usersError) alert("Error al obtener usuarios: " + usersError.message);
+      else setUsers(usersData);
+
+      if (keysError) alert("Error al obtener claves: " + keysError.message);
+      else setKeys(keysData);
+
       setLoading(false);
     }
-    fetchUsers();
+    fetchData();
   }, []);
 
   const handleToggleActive = async (userId, isActive) => {
@@ -37,7 +46,25 @@ export default function Page() {
     }
   };
 
-  if (loading) return <p className="text-center">Cargando usuarios...</p>;
+  const handleCreateKey = async () => {
+    const { data, error } = await CREATE_KEY();
+    if (error) {
+      alert("Error al generar clave: " + error.message);
+    } else {
+      setKeys((prevKeys) => [...prevKeys, { id: data }]);
+    }
+  };
+
+  const handleDeleteKey = async (keyId) => {
+    const { error } = await DELETE_KEY(keyId);
+    if (error) {
+      alert("Error al eliminar clave: " + error.message);
+    } else {
+      setKeys((prevKeys) => prevKeys.filter((key) => key.id !== keyId));
+    }
+  };
+
+  if (loading) return <p className="text-center">Cargando datos...</p>;
 
   return (
     <body className="body">
@@ -95,6 +122,33 @@ export default function Page() {
                 ))}
               </tbody>
             </table>
+
+            {/* Sección de gestión de claves */}
+            <div className="mt-5">
+              <h2 className="text-center">Gestión de Claves</h2>
+              <button
+                className="btn btn-success mb-3"
+                onClick={handleCreateKey}
+              >
+                Generar Nueva Clave
+              </button>
+              <ul className="list-group">
+                {keys.map((key) => (
+                  <li
+                    key={key.id}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    {key.id}
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDeleteKey(key.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

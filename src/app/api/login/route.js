@@ -5,7 +5,18 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function REGISTER({ email, password }) {
+export async function REGISTER({ email, password, clave }) {
+  // Verificar si la clave (id) existe en la tabla 'clave'
+  const { data: claveData, error: claveError } = await supabase
+    .from("clave")
+    .select("id")
+    .eq("id", clave)
+    .single();
+
+  if (claveError || !claveData) {
+    return { error: { message: "Clave inválida. No puedes registrarte." } };
+  }
+
   // Registro en Supabase Authentication
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -14,16 +25,15 @@ export async function REGISTER({ email, password }) {
 
   if (error) return { error };
 
-  // Obtener el uid del usuario registrado
   const uid = data.user.id;
 
-  // Insertar en la tabla "admin" (opcional, según tu estructura)
+  // Insertar en la tabla "admin"
   await supabase.from("admin").insert([{ email, admin: false }]);
 
-  // Insertar en la tabla "usuario" con el correo y el fk_id vinculado al uid
-  const { error: insertError } = await supabase.from("usuario").insert([
-    { correo: email, fk_id: uid }, // Insertamos tanto el correo como el fk_id
-  ]);
+  // Insertar en la tabla "usuario"
+  const { error: insertError } = await supabase
+    .from("usuario")
+    .insert([{ correo: email, fk_id: uid }]);
 
   if (insertError) return { error: insertError };
 

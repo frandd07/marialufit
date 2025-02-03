@@ -3,19 +3,19 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LOGIN, REGISTER } from "../api/login/route";
-
 export default function AuthPage() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [clave, setClave] = useState(""); // Campo para la clave
   const router = useRouter();
 
   async function handleAuth(e) {
     e.preventDefault();
 
-    if (email && password) {
+    if (email && password && (!isRegistering || (isRegistering && clave))) {
       if (isRegistering) {
-        const { error } = await REGISTER({ email, password });
+        const { error } = await REGISTER({ email, password, clave });
         if (error) {
           alert("Error al registrarse: " + error.message);
         } else {
@@ -61,6 +61,17 @@ export default function AuthPage() {
             required
           />
         </label>
+        <br />
+        {isRegistering && (
+          <label>
+            Clave:
+            <input
+              type="text"
+              onChange={(e) => setClave(e.target.value)}
+              required
+            />
+          </label>
+        )}
         <br />
         <input
           type="submit"
