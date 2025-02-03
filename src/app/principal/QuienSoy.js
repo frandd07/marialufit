@@ -40,7 +40,17 @@ export default function QuienSoy() {
               acompañarte en cada paso hacia una vida más activa y equilibrada.
             </p>
 
-            <button className="btn btn-primary px-4 py-2">Conoce más</button>
+            <button
+              className="btn px-4 py-2"
+              style={{
+                background: "linear-gradient(135deg, #FF6347, #FF4500)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "12px",
+              }}
+            >
+              Conoce más
+            </button>
           </div>
         </div>
       </section>
