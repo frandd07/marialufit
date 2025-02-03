@@ -49,7 +49,7 @@ export default function Objetivos() {
       style={{ backgroundColor: "#1f2431" }}
     >
       <div className="container">
-        <h2 className="text-center text-white mb-5">Objetivos</h2>
+        <h2 className="text-center text-white mb-5"></h2>
 
         <div className="objetivos-grid">
           {objetivos.map((obj, index) => (
