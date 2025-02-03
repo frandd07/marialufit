@@ -1,5 +1,6 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../adminstyle.css";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation"; // Para navegación
@@ -40,15 +41,12 @@ export default function Page() {
 
   return (
     <body className="body">
-      <div
-        className="container py-5 d-flex justify-content-center"
-        style={{ backgroundColor: "#f4f4f4" }}
-      >
+      <div className="container py-5 d-flex justify-content-center bg-image">
         <div
           className="card shadow-lg"
           style={{ width: "80%", maxWidth: "900px" }}
         >
-          <div className="card-header bg-primary text-white text-center p-3">
+          <div className="card-header bg-color text-white text-center p-3">
             <h2>Usuarios Registrados</h2>
           </div>
           <div className="card-body bg-light">
