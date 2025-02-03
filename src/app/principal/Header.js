@@ -88,8 +88,17 @@ export default function Header() {
           TRUST THE PROCESS
         </p>
         <button
-          className="btn btn-light mt-3"
-          style={{ padding: "10px 20px", borderRadius: "30px" }}
+          className="btn mt-3"
+          style={{
+            background: "linear-gradient(135deg, #FF6347, #FF4500)",
+            color: "#fff",
+            border: "none",
+            borderRadius: "30px",
+            padding: "10px 20px",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
         >
           <i className="bi bi-arrow-right-circle"></i> Ver más
         </button>
