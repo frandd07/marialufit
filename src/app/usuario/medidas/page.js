@@ -16,6 +16,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 
 // Registra los componentes de Chart.js
@@ -26,7 +27,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
@@ -44,8 +46,8 @@ export default function Page() {
       {
         label: "Peso",
         data: [],
-        borderColor: "rgba(75,192,192,1)",
-        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "#FF6347", // Naranja (como el botón)
+        backgroundColor: "rgba(255, 99, 71, 0.2)", // Naranja con opacidad
         fill: true,
       },
     ],
@@ -96,8 +98,8 @@ export default function Page() {
           {
             label: "Peso",
             data: weights,
-            borderColor: "rgba(75,192,192,1)",
-            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "#FF6347", // Naranja (como el botón)
+            backgroundColor: "rgba(255, 99, 71, 0.2)", // Naranja con opacidad
             fill: true,
           },
         ],
@@ -134,18 +136,18 @@ export default function Page() {
   }
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#202434" }}>
       <Header />
 
       <div className="container mt-5">
-        <h1 className="mb-4">Medidas Corporales</h1>
+        <h1 className="mb-4 text-white">Medidas Corporales</h1>
 
         {/* Formulario para ingresar medida */}
-        <div className="card p-4">
-          <h3>Registrar Medida</h3>
+        <div className="card p-4" style={{ backgroundColor: "#585953" }}>
+          <h3 className="text-white">Registrar Medida</h3>
           <form onSubmit={handleSaveMeasure}>
             <div className="mb-3">
-              <label htmlFor="peso" className="form-label">
+              <label htmlFor="peso" className="form-label text-white">
                 Peso (kg)
               </label>
               <input
@@ -159,7 +161,7 @@ export default function Page() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="fecha" className="form-label">
+              <label htmlFor="fecha" className="form-label text-white">
                 Fecha
               </label>
               <input
@@ -172,8 +174,20 @@ export default function Page() {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Guardar Medida
+            <button
+              className="btn mt-3"
+              style={{
+                background: "linear-gradient(135deg, #FF6347, #FF4500)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "30px",
+                padding: "10px 20px",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <i className="bi bi-arrow-right-circle"></i> Guardar medida
             </button>
           </form>
         </div>
@@ -182,7 +196,7 @@ export default function Page() {
         <div className="card mt-4 p-4">
           <h3>Mis Medidas Registradas</h3>
           {measures.length > 0 ? (
-            <table className="table table-striped">
+            <table className="table table-striped text-white">
               <thead>
                 <tr>
                   <th>Fecha</th>
@@ -199,14 +213,47 @@ export default function Page() {
               </tbody>
             </table>
           ) : (
-            <p>No has registrado ninguna medida aún.</p>
+            <p className="text-white">No has registrado ninguna medida aún.</p>
           )}
         </div>
 
         {/* Gráfico de pesos */}
-        <div className="card mt-4 p-4">
-          <h3>Gráfica de Pesos</h3>
-          <Line data={chartData} />
+        <div className="card mt-4 p-4" style={{ backgroundColor: "#585953" }}>
+          <h3 className="text-white">Gráfica de Pesos</h3>
+          <Line
+            data={chartData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  labels: {
+                    color: "#fff", // Coloca las etiquetas de la leyenda en blanco
+                  },
+                },
+                tooltip: {
+                  bodyColor: "#fff", // Coloca el texto del tooltip en blanco
+                },
+              },
+              scales: {
+                x: {
+                  ticks: {
+                    color: "#fff", // Coloca las fechas en blanco
+                  },
+                  grid: {
+                    color: "#fff", // Las cuadrículas del eje X en blanco
+                  },
+                },
+                y: {
+                  ticks: {
+                    color: "#fff", // Las marcas en el eje Y en blanco
+                  },
+                  grid: {
+                    color: "#fff", // Las cuadrículas del eje Y en blanco
+                  },
+                },
+              },
+            }}
+          />
         </div>
       </div>
 
