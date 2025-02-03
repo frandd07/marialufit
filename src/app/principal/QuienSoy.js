@@ -34,11 +34,12 @@ export default function QuienSoy() {
             <h2 className="display-5 fw-bold text-dark mb-4 text-white">
               Mi misión es ayudarte a alcanzar tu mejor versión
             </h2>
-            <p className="p-4 rounded-lg text-white">
+            <p className="text-white mb-4">
               Soy Marialu, entrenadora personal apasionada por transformar vidas
               a través de la salud y el bienestar. Mi objetivo es inspirarte y
               acompañarte en cada paso hacia una vida más activa y equilibrada.
             </p>
+
             <button className="btn btn-primary px-4 py-2">Conoce más</button>
           </div>
         </div>
