@@ -1,5 +1,6 @@
 "use client";
 import { createClient } from "@supabase/supabase-js";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Header from "../Header.js";
@@ -135,55 +136,80 @@ export default function Page() {
   return (
     <div>
       <Header />
-      <h1>Medidas Corporales</h1>
-      <form onSubmit={handleSaveMeasure}>
-        <label>
-          Peso:
-          <input
-            type="number"
-            value={peso}
-            onChange={(e) => setPeso(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Fecha:
-          <input
-            type="date"
-            value={fecha}
-            onChange={(e) => setFecha(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <input type="submit" value="Guardar Medida" />
-      </form>
 
-      <h2>Mis Medidas Registradas</h2>
-      {measures.length > 0 ? (
-        <table border="1">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Peso</th>
-            </tr>
-          </thead>
-          <tbody>
-            {measures.map((measure, index) => (
-              <tr key={index}>
-                <td>{measure.fecha}</td>
-                <td>{measure.peso} kg</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No has registrado ninguna medida aún.</p>
-      )}
+      <div className="container mt-5">
+        <h1 className="mb-4">Medidas Corporales</h1>
 
-      <h2>Gráfica de Pesos</h2>
-      <Line data={chartData} />
+        {/* Formulario para ingresar medida */}
+        <div className="card p-4">
+          <h3>Registrar Medida</h3>
+          <form onSubmit={handleSaveMeasure}>
+            <div className="mb-3">
+              <label htmlFor="peso" className="form-label">
+                Peso (kg)
+              </label>
+              <input
+                type="number"
+                id="peso"
+                className="form-control"
+                value={peso}
+                onChange={(e) => setPeso(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="fecha" className="form-label">
+                Fecha
+              </label>
+              <input
+                type="date"
+                id="fecha"
+                className="form-control"
+                value={fecha}
+                onChange={(e) => setFecha(e.target.value)}
+                required
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Guardar Medida
+            </button>
+          </form>
+        </div>
+
+        {/* Tabla de medidas registradas */}
+        <div className="card mt-4 p-4">
+          <h3>Mis Medidas Registradas</h3>
+          {measures.length > 0 ? (
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Peso</th>
+                </tr>
+              </thead>
+              <tbody>
+                {measures.map((measure, index) => (
+                  <tr key={index}>
+                    <td>{measure.fecha}</td>
+                    <td>{measure.peso} kg</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No has registrado ninguna medida aún.</p>
+          )}
+        </div>
+
+        {/* Gráfico de pesos */}
+        <div className="card mt-4 p-4">
+          <h3>Gráfica de Pesos</h3>
+          <Line data={chartData} />
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
