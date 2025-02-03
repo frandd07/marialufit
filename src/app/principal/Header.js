@@ -10,7 +10,7 @@ export default function Header() {
           <div className="d-flex">
             <ul className="navbar-nav me-3">
               <li className="nav-item">
-                <a className="nav-link" href="#quien-soy">
+                <a className="nav-link" href="#quiensoybueno">
                   Quién soy
                 </a>
               </li>

@@ -3,6 +3,11 @@ import React from "react";
 export default function QuienSoy() {
   return (
     <div style={{ backgroundColor: "#1f2431", minHeight: "100vh" }}>
+      <div
+        id="quiensoybueno"
+        className="text-center text-white mb-5"
+        style={{ height: "50px", backgroundColor: "#1f2431" }}
+      ></div>
       <section
         id="quien-soy"
         className="container py-5 px-4 d-flex align-items-center justify-content-center"
