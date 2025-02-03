@@ -11,7 +11,7 @@ export default function QuienSoy() {
         <div className="row align-items-center shadow-lg rounded-4 overflow-hidden bg-white">
           <div className="col-md-6 p-0">
             <img
-              src="/images/quiensoy.jpg"
+              src="/images/quiensoy2.jpg"
               alt="Marialu en el gimnasio"
               className="img-fluid h-100 w-100"
               style={{ objectFit: "cover" }}
