@@ -16,3 +16,16 @@ export async function GET_USERS() {
 
   return { data }; // Devuelve todos los usuarios de la tabla 'usuario'
 }
+
+export async function TOGGLE_USER_ACTIVE(userId, isActive) {
+  const { data, error } = await supabase
+    .from("usuario")
+    .update({ activo: isActive })
+    .eq("id", userId);
+
+  if (error) {
+    return { error };
+  }
+
+  return { data }; // Devuelve los datos actualizados
+}
