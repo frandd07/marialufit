@@ -2,40 +2,37 @@ import React from "react";
 
 export default function QuienSoy() {
   return (
-    <section id="quien-soy">
-      <h2>Quién soy</h2>
-      <p>
-        Me llamo Juan, soy un apasionado de la nutrición y el entrenamiento
-        físico. Durante los últimos años he trabajado como entrenador personal,
-        ayudando a muchas personas a alcanzar sus objetivos de salud y
-        bienestar.
-      </p>
-      <p>
-        Trabajo con personas de todas las edades y niveles de experiencia. Mi
-        enfoque se basa en crear programas de entrenamiento y nutrición
-        personalizados para cada cliente. Ya sea que quieras perder peso, ganar
-        músculo o simplemente mantenerte activo, tengo el plan adecuado para ti.
-      </p>
-      <p>
-        Aquí en mi sitio web, encontrarás información detallada sobre mis
-        servicios, mis enfoques de entrenamiento y consejos útiles para mejorar
-        tu salud. Si estás listo para dar el siguiente paso hacia una vida más
-        saludable, ¡estoy aquí para ayudarte!
-      </p>
-      <p>
-        Mi compromiso con la excelencia y mi pasión por el bienestar de mis
-        clientes son lo que me motivan a seguir trabajando todos los días para
-        ayudarte a alcanzar tus metas.
-      </p>
-      <p>
-        ¡No dudes en contactarme si tienes alguna pregunta o si estás listo para
-        empezar tu viaje de transformación hoy mismo!
-      </p>
-      <p>---</p>
-      <p>
-        Este es solo un ejemplo del contenido. Añade más para seguir extendiendo
-        tu página...
-      </p>
-    </section>
+    <div style={{ backgroundColor: "#1f2431", minHeight: "100vh" }}>
+      <section
+        id="quien-soy"
+        className="container py-5 px-4 d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <div className="row align-items-center shadow-lg rounded-4 overflow-hidden bg-white">
+          <div className="col-md-6 p-0">
+            <img
+              src="/images/quiensoy.jpg"
+              alt="Marialu en el gimnasio"
+              className="img-fluid h-100 w-100"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+          <div className="col-md-6 p-5">
+            <span className="badge bg-warning text-dark mb-3 px-3 py-2">
+              Sobre mí
+            </span>
+            <h2 className="display-5 fw-bold text-dark mb-4">
+              Mi misión es ayudarte a alcanzar tu mejor versión
+            </h2>
+            <p className="fs-5 text-muted mb-4">
+              Soy Marialu, entrenadora personal apasionada por transformar vidas
+              a través de la salud y el bienestar. Mi objetivo es inspirarte y
+              acompañarte en cada paso hacia una vida más activa y equilibrada.
+            </p>
+            <button className="btn btn-primary px-4 py-2">Conoce más</button>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

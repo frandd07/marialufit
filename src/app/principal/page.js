@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
 import QuienSoy from "./QuienSoy";
 import Objetivos from "./Objetivos";
 import Nutricion from "./Nutricion";
