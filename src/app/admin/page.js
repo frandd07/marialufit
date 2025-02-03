@@ -74,9 +74,38 @@ export default function Page() {
           style={{ width: "80%", maxWidth: "900px" }}
         >
           <div className="card-header bg-color text-white text-center p-3">
-            <h2>Usuarios Registrados</h2>
+            <h2>Gestión de Claves</h2>
           </div>
           <div className="card-body bg-light">
+            {/* Sección de gestión de claves */}
+            <div className="mb-5">
+              <button
+                className="btn btn-success mb-3"
+                onClick={handleCreateKey}
+              >
+                Generar Nueva Clave
+              </button>
+              <ul className="list-group">
+                {keys.map((key) => (
+                  <li
+                    key={key.id}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    {key.id}
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDeleteKey(key.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="card-header bg-color text-white text-center p-3">
+              <h2>Usuarios Registrados</h2>
+            </div>
             <table className="table table-hover table-bordered">
               <thead className="thead-light">
                 <tr>
@@ -122,33 +151,6 @@ export default function Page() {
                 ))}
               </tbody>
             </table>
-
-            {/* Sección de gestión de claves */}
-            <div className="mt-5">
-              <h2 className="text-center">Gestión de Claves</h2>
-              <button
-                className="btn btn-success mb-3"
-                onClick={handleCreateKey}
-              >
-                Generar Nueva Clave
-              </button>
-              <ul className="list-group">
-                {keys.map((key) => (
-                  <li
-                    key={key.id}
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    {key.id}
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDeleteKey(key.id)}
-                    >
-                      Eliminar
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </div>
