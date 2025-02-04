@@ -82,9 +82,9 @@ export default function DietaPage() {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#585953" }}>
       <Header />
-      <div className="container mt-5">
+      <div className="container mt-5" style={{ backgroundColor: "#585953" }}>
         <h1 className="mb-4 text-center">Tu Dieta</h1>
         {Object.keys(dietasAgrupadas)
           .sort((a, b) => a - b)
@@ -95,7 +95,7 @@ export default function DietaPage() {
                 .sort((a, b) => a - b)
                 .map((dia) => (
                   <div key={dia} className="ms-4 mb-3">
-                    <h3 style={{ color: "#2c2f38" }}>Día {dia}</h3>
+                    <h3 style={{ color: "#ffc107  " }}>Día {dia}</h3>
                     <div className="table-responsive">
                       <table className="table table-bordered">
                         <thead className="table-dark">
