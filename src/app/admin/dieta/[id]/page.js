@@ -1,7 +1,9 @@
+// page.js
 "use client";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function DietaPage() {
   const { id } = useParams();
@@ -13,16 +15,6 @@ export default function DietaPage() {
   const [dia, setDia] = useState(1);
   const [editingId, setEditingId] = useState(null);
 
-  const opcionesMomento = [
-    "desayuno",
-    "almuerzo",
-    "merienda",
-    "cena",
-    "snack",
-    "pre-entreno",
-    "post-entreno",
-  ];
-
   useEffect(() => {
     fetchDietas();
   }, [id]);
@@ -31,7 +23,6 @@ export default function DietaPage() {
     const res = await fetch(`/api/admin/dieta?id=${id}`);
     const { data } = await res.json();
 
-    // Organizar por semana y día
     const organizedData = data.reduce((acc, item) => {
       if (!acc[item.semana]) acc[item.semana] = {};
       if (!acc[item.semana][item.dia]) acc[item.semana][item.dia] = [];
@@ -55,104 +46,173 @@ export default function DietaPage() {
       id: editingId,
     };
 
-    console.log("Enviando datos:", requestBody); // Debugging
-
     const res = await fetch("/api/admin/dieta", {
       method: editingId ? "PUT" : "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
     });
 
-    const responseData = await res.json();
-    console.log("Respuesta del servidor:", responseData); // Debugging
-
     if (res.ok) {
       alert(editingId ? "Dieta actualizada" : "Dieta asignada");
-      setComida("");
-      setIngredientes("");
-      setMomento("desayuno");
-      setSemana(1);
-      setDia(1);
-      setEditingId(null);
+      resetForm();
       fetchDietas();
     } else {
       alert("Error al asignar/actualizar la dieta");
     }
   }
 
+  async function handleDelete(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar esta dieta?")) {
+      const res = await fetch("/api/admin/dieta", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (res.ok) {
+        alert("Dieta eliminada");
+        fetchDietas();
+      } else {
+        alert("Error al eliminar la dieta");
+      }
+    }
+  }
+
+  function resetForm() {
+    setComida("");
+    setIngredientes("");
+    setMomento("desayuno");
+    setSemana(1);
+    setDia(1);
+    setEditingId(null);
+  }
+
   return (
-    <div>
-      <h1>Plan de Dieta - Usuario {id}</h1>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">Plan de Dieta - Usuario {id}</h1>
 
-      <form onSubmit={handleSubmit}>
-        <label>Comida:</label>
-        <input
-          type="text"
-          value={comida}
-          onChange={(e) => setComida(e.target.value)}
-          required
-        />
+      <form onSubmit={handleSubmit} className="mb-4">
+        <div className="mb-3">
+          <label className="form-label">Comida:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={comida}
+            onChange={(e) => setComida(e.target.value)}
+            required
+          />
+        </div>
 
-        <label>Ingredientes:</label>
-        <input
-          type="text"
-          value={ingredientes}
-          onChange={(e) => setIngredientes(e.target.value)}
-        />
+        <div className="mb-3">
+          <label className="form-label">Ingredientes:</label>
+          <input
+            type="text"
+            className="form-control"
+            value={ingredientes}
+            onChange={(e) => setIngredientes(e.target.value)}
+          />
+        </div>
 
-        <label>Momento:</label>
-        <select
-          value={momento}
-          onChange={(e) => setMomento(e.target.value)}
-          required
-        >
-          {opcionesMomento.map((opcion) => (
-            <option key={opcion} value={opcion}>
-              {opcion.charAt(0).toUpperCase() + opcion.slice(1)}
-            </option>
-          ))}
-        </select>
+        <div className="mb-3">
+          <label className="form-label">Momento:</label>
+          <select
+            className="form-select"
+            value={momento}
+            onChange={(e) => setMomento(e.target.value)}
+            required
+          >
+            {[
+              "desayuno",
+              "almuerzo",
+              "merienda",
+              "cena",
+              "snack",
+              "pre-entreno",
+              "post-entreno",
+            ].map((opcion) => (
+              <option key={opcion} value={opcion}>
+                {opcion.charAt(0).toUpperCase() + opcion.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <label>Semana:</label>
-        <input
-          type="number"
-          min="1"
-          max="4"
-          value={semana}
-          onChange={(e) => setSemana(Number(e.target.value))}
-          required
-        />
+        <div className="row">
+          <div className="col">
+            <label className="form-label">Semana:</label>
+            <input
+              type="number"
+              className="form-control"
+              min="1"
+              max="4"
+              value={semana}
+              onChange={(e) => setSemana(Number(e.target.value))}
+              required
+            />
+          </div>
+          <div className="col">
+            <label className="form-label">Día:</label>
+            <input
+              type="number"
+              className="form-control"
+              min="1"
+              max="7"
+              value={dia}
+              onChange={(e) => setDia(Number(e.target.value))}
+              required
+            />
+          </div>
+        </div>
 
-        <label>Día:</label>
-        <input
-          type="number"
-          min="1"
-          max="7"
-          value={dia}
-          onChange={(e) => setDia(Number(e.target.value))}
-          required
-        />
-
-        <button type="submit">{editingId ? "Actualizar" : "Asignar"}</button>
+        <button type="submit" className="btn btn-primary mt-3">
+          {editingId ? "Actualizar" : "Asignar"}
+        </button>
       </form>
 
-      <h2>Dietas Asignadas</h2>
+      <h2 className="mb-3">Dietas Asignadas</h2>
       {Object.keys(dietas).map((week) => (
-        <div key={week}>
+        <div key={week} className="mb-4">
           <h3>Semana {week}</h3>
           {Object.keys(dietas[week]).map((day) => (
-            <div key={day}>
+            <div key={day} className="mb-3">
               <h4>Día {day}</h4>
-              <ul>
+              <ul className="list-group">
                 {dietas[week][day].map((dieta) => (
-                  <li key={dieta.id}>
-                    <strong>{dieta.momento.toUpperCase()}:</strong>{" "}
-                    {dieta.comida} <br />
-                    <small>
-                      <em>
-                        Ingredientes: {dieta.ingredientes || "No especificado"}
-                      </em>
-                    </small>
+                  <li
+                    key={dieta.id}
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <strong>{dieta.momento.toUpperCase()}:</strong>{" "}
+                      {dieta.comida} <br />
+                      <small>
+                        <em>
+                          Ingredientes:{" "}
+                          {dieta.ingredientes || "No especificado"}
+                        </em>
+                      </small>
+                    </div>
+                    <div>
+                      <button
+                        className="btn btn-warning btn-sm me-2"
+                        onClick={() => {
+                          setEditingId(dieta.id);
+                          setComida(dieta.comida);
+                          setIngredientes(dieta.ingredientes);
+                          setMomento(dieta.momento);
+                          setSemana(dieta.semana);
+                          setDia(dieta.dia);
+                        }}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => handleDelete(dieta.id)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
