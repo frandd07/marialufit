@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div>
+    <div className="bg-dark">
       <Header />
 
       <div>

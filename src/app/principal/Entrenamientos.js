@@ -3,28 +3,34 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Entrenamientos() {
   return (
-    <section id="entrenamientos" className="container my-5">
+    <section id="entrenamientos" className="container my-5 bg-dark">
       <div className="row">
-        <div className="col-12 col-md-6 mb-4">
-          <div className="p-5 bg-dark text-white rounded-3">
+        <div className="col-12 mb-4">
+          <div
+            className="p-5 text-white rounded-3"
+            style={{ backgroundColor: "#2e3c59" }}
+          >
             <img
               src="https://via.placeholder.com/500x300"
               alt="Entrenamiento 1"
               className="img-fluid rounded-3 mb-3"
             />
-            <h2>Another headline</h2>
+            <h2>Presencial</h2>
             <p>And an even wittier subheading.</p>
           </div>
         </div>
-        <div className="col-12 col-md-6 mb-4">
-          <div className="p-5 bg-light text-dark rounded-3">
+        <div className="col-12 mb-4">
+          <div
+            className="p-5 text-dark rounded-3"
+            style={{ backgroundColor: "#585953" }}
+          >
             <img
               src="https://via.placeholder.com/500x300"
               alt="Entrenamiento 2"
               className="img-fluid rounded-3 mb-3"
             />
-            <h2>Another headline</h2>
-            <p>And an even wittier subheading.</p>
+            <h2>Online</h2>
+            <p className="text-white">And an even wittier subheading.</p>
           </div>
         </div>
       </div>
