@@ -137,7 +137,7 @@ export default function AuthPage() {
                 <button
                   onClick={() => setIsRegistering(false)}
                   className="btn btn-link"
-                  style={{ color: "#FF6347", fontWeight: "bold" }}
+                  style={{ color: "#FFC107", fontWeight: "bold" }}
                 >
                   Inicia sesión
                 </button>
