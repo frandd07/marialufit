@@ -82,9 +82,9 @@ export default function DietaPage() {
   };
 
   return (
-    <div style={{ backgroundColor: "#585953" }}>
+    <div style={{ backgroundColor: "#202434" }}>
       <Header />
-      <div className="container mt-5" style={{ backgroundColor: "#585953" }}>
+      <div className="container mt-5" style={{ backgroundColor: "#202434" }}>
         <h1 className="mb-4 text-center">Tu Dieta</h1>
         {Object.keys(dietasAgrupadas)
           .sort((a, b) => a - b)
@@ -100,13 +100,13 @@ export default function DietaPage() {
                       <table className="table table-bordered">
                         <thead className="table-dark">
                           <tr>
-                            <th style={{ backgroundColor: "#202434" }}>
+                            <th style={{ backgroundColor: "#585953" }}>
                               Momento
                             </th>
-                            <th style={{ backgroundColor: "#202434" }}>
+                            <th style={{ backgroundColor: "#585953" }}>
                               Comida
                             </th>
-                            <th style={{ backgroundColor: "#202434" }}>
+                            <th style={{ backgroundColor: "#585953" }}>
                               Ingredientes
                             </th>
                           </tr>
