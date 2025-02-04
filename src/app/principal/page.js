@@ -5,11 +5,12 @@ import QuienSoy from "./QuienSoy";
 import Objetivos from "./Objetivos";
 import Nutricion from "./Nutricion";
 import Entrenamientos from "./Entrenamientos";
-import Contacto from "./Contacto";
+import Contacto from "./Plataforma";
 import Perfil from "./Perfil";
 import Header from "./Header";
 import Footer from "./Footer";
 import Link from "next/link";
+import Plataforma from "./Plataforma";
 
 export default function Page() {
   return (
@@ -21,7 +22,7 @@ export default function Page() {
         <Objetivos />
         <Nutricion />
         <Entrenamientos />
-        <Contacto />
+        <Plataforma />
       </div>
 
       <Footer />
