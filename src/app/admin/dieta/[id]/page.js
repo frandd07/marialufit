@@ -1,4 +1,3 @@
-// page.js
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,6 +13,17 @@ export default function DietaPage() {
   const [semana, setSemana] = useState(1);
   const [dia, setDia] = useState(1);
   const [editingId, setEditingId] = useState(null);
+
+  // Definimos el orden deseado para los momentos
+  const momentosOrden = [
+    "desayuno",
+    "snack",
+    "almuerzo",
+    "merienda",
+    "cena",
+    "pre-entreno",
+    "post-entreno",
+  ];
 
   useEffect(() => {
     fetchDietas();
@@ -121,15 +131,7 @@ export default function DietaPage() {
             onChange={(e) => setMomento(e.target.value)}
             required
           >
-            {[
-              "desayuno",
-              "almuerzo",
-              "merienda",
-              "cena",
-              "snack",
-              "pre-entreno",
-              "post-entreno",
-            ].map((opcion) => (
+            {momentosOrden.map((opcion) => (
               <option key={opcion} value={opcion}>
                 {opcion.charAt(0).toUpperCase() + opcion.slice(1)}
               </option>
@@ -173,51 +175,59 @@ export default function DietaPage() {
       {Object.keys(dietas).map((week) => (
         <div key={week} className="mb-4">
           <h3>Semana {week}</h3>
-          {Object.keys(dietas[week]).map((day) => (
-            <div key={day} className="mb-3">
-              <h4>Día {day}</h4>
-              <ul className="list-group">
-                {dietas[week][day].map((dieta) => (
-                  <li
-                    key={dieta.id}
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                  >
-                    <div>
-                      <strong>{dieta.momento.toUpperCase()}:</strong>{" "}
-                      {dieta.comida} <br />
-                      <small>
-                        <em>
-                          Ingredientes:{" "}
-                          {dieta.ingredientes || "No especificado"}
-                        </em>
-                      </small>
-                    </div>
-                    <div>
-                      <button
-                        className="btn btn-warning btn-sm me-2"
-                        onClick={() => {
-                          setEditingId(dieta.id);
-                          setComida(dieta.comida);
-                          setIngredientes(dieta.ingredientes);
-                          setMomento(dieta.momento);
-                          setSemana(dieta.semana);
-                          setDia(dieta.dia);
-                        }}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleDelete(dieta.id)}
-                      >
-                        Eliminar
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {Object.keys(dietas[week]).map((day) => {
+            // Ordenamos las dietas del día según el orden definido
+            const sortedDietas = [...dietas[week][day]].sort(
+              (a, b) =>
+                momentosOrden.indexOf(a.momento) -
+                momentosOrden.indexOf(b.momento)
+            );
+            return (
+              <div key={day} className="mb-3">
+                <h4>Día {day}</h4>
+                <ul className="list-group">
+                  {sortedDietas.map((dieta) => (
+                    <li
+                      key={dieta.id}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <div>
+                        <strong>{dieta.momento.toUpperCase()}:</strong>{" "}
+                        {dieta.comida} <br />
+                        <small>
+                          <em>
+                            Ingredientes:{" "}
+                            {dieta.ingredientes || "No especificado"}
+                          </em>
+                        </small>
+                      </div>
+                      <div>
+                        <button
+                          className="btn btn-warning btn-sm me-2"
+                          onClick={() => {
+                            setEditingId(dieta.id);
+                            setComida(dieta.comida);
+                            setIngredientes(dieta.ingredientes);
+                            setMomento(dieta.momento);
+                            setSemana(dieta.semana);
+                            setDia(dieta.dia);
+                          }}
+                        >
+                          Editar
+                        </button>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(dieta.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       ))}
     </div>
