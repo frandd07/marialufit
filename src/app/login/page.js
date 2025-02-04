@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LOGIN, REGISTER } from "../api/login/route";
+import "bootstrap/dist/css/bootstrap.min.css"; // Asegúrate de importar Bootstrap en tu proyecto
+
 export default function AuthPage() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
@@ -41,58 +43,102 @@ export default function AuthPage() {
   }
 
   return (
-    <div>
-      <h1>{isRegistering ? "Registrarse" : "Iniciar Sesión"}</h1>
-      <form onSubmit={handleAuth}>
-        <label>
-          Correo:
-          <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Contraseña:
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <br />
-        {isRegistering && (
-          <label>
-            Clave:
-            <input
-              type="text"
-              onChange={(e) => setClave(e.target.value)}
-              required
-            />
-          </label>
-        )}
-        <br />
-        <input
-          type="submit"
-          value={isRegistering ? "Registrar" : "Iniciar Sesión"}
+    <div className="d-flex vh-100">
+      <div className="col-6 d-flex justify-content-center align-items-center">
+        <img
+          src="/images/img_principal.jpg"
+          alt="Imagen de fondo"
+          className="w-100 h-100 object-cover"
         />
-      </form>
-      <p>
-        {isRegistering ? (
-          <>
-            ¿Ya tienes cuenta?{" "}
-            <button onClick={() => setIsRegistering(false)}>
-              Inicia sesión
-            </button>
-          </>
-        ) : (
-          <>
-            ¿No estás registrado?{" "}
-            <button onClick={() => setIsRegistering(true)}>Regístrate</button>
-          </>
-        )}
-      </p>
+      </div>
+      <div
+        className="col-6 d-flex justify-content-center align-items-center text-white"
+        style={{ backgroundColor: "#28242c" }}
+      >
+        <div
+          className="p-4 rounded shadow-lg"
+          style={{
+            width: "350px",
+            backgroundColor: "#585953", // Fondo gris oscuro
+            boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.3)", // Sombra clara
+          }}
+        >
+          <h1 className="text-center mb-4 text-white">
+            {isRegistering ? "Registrarse" : "Iniciar Sesión"}
+          </h1>
+          <form onSubmit={handleAuth}>
+            <div className="mb-3">
+              <label className="form-label">Correo</label>
+              <input
+                type="email"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Contraseña</label>
+              <input
+                type="password"
+                className="form-control"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {isRegistering && (
+              <div className="mb-3">
+                <label className="form-label">Clave</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={clave}
+                  onChange={(e) => setClave(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+            <div className="d-grid">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{
+                  background: "linear-gradient(135deg, #FF6347, #FF4500)",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "12px",
+                }}
+              >
+                {isRegistering ? "Registrar" : "Iniciar Sesión"}
+              </button>
+            </div>
+          </form>
+          <p className="mt-3 text-center">
+            {isRegistering ? (
+              <>
+                ¿Ya tienes cuenta?{" "}
+                <button
+                  onClick={() => setIsRegistering(false)}
+                  className="btn btn-link"
+                >
+                  Inicia sesión
+                </button>
+              </>
+            ) : (
+              <>
+                ¿No estás registrado?{" "}
+                <button
+                  onClick={() => setIsRegistering(true)}
+                  className="btn btn-link"
+                >
+                  Regístrate
+                </button>
+              </>
+            )}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
