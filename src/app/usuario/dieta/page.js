@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import Header from "../Header";
 import Footer from "../Footer";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
 const supabaseKey =
@@ -42,11 +43,18 @@ export default function DietaPage() {
     fetchDietas();
   }, []);
 
-  if (loading) return <p>Cargando dietas...</p>;
+  if (loading)
+    return (
+      <div className="text-center mt-5">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    );
 
-  if (dietas.length === 0) return <p>No tienes dietas asignadas.</p>;
+  if (dietas.length === 0)
+    return <p className="text-center mt-5">No tienes dietas asignadas.</p>;
 
-  // Agrupar las dietas por semana y día
   const dietasAgrupadas = dietas.reduce((acc, dieta) => {
     if (!acc[dieta.semana]) acc[dieta.semana] = {};
     if (!acc[dieta.semana][dieta.dia]) acc[dieta.semana][dieta.dia] = [];
@@ -54,73 +62,89 @@ export default function DietaPage() {
     return acc;
   }, {});
 
+  const ordenMomentos = [
+    "desayuno",
+    "snack",
+    "almuerzo",
+    "merienda",
+    "cena",
+    "pre entreno",
+    "post entreno",
+  ];
+  const coloresMomentos = {
+    desayuno: "table-info",
+    snack: "table-light",
+    almuerzo: "table-warning",
+    merienda: "table-secondary",
+    cena: "table-success",
+    "pre entreno": "table-primary",
+    "post entreno": "table-danger",
+  };
+
   return (
     <div>
       <Header />
-      <h1>Tu Dieta</h1>
-      {Object.keys(dietasAgrupadas)
-        .sort((a, b) => a - b)
-        .map((semana) => (
-          <div key={semana} style={{ marginBottom: "20px" }}>
-            <h2>Semana {semana}</h2>
-            {Object.keys(dietasAgrupadas[semana])
-              .sort((a, b) => a - b)
-              .map((dia) => (
-                <div
-                  key={dia}
-                  style={{ marginLeft: "20px", marginBottom: "10px" }}
-                >
-                  <h3>Día {dia}</h3>
-                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                    <thead>
-                      <tr>
-                        <th
-                          style={{ border: "1px solid #ddd", padding: "8px" }}
-                        >
-                          Momento
-                        </th>
-                        <th
-                          style={{ border: "1px solid #ddd", padding: "8px" }}
-                        >
-                          Comida
-                        </th>
-                        <th
-                          style={{ border: "1px solid #ddd", padding: "8px" }}
-                        >
-                          Ingredientes
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dietasAgrupadas[semana][dia].map((dieta, index) => (
-                        <tr key={index}>
-                          <td
-                            style={{ border: "1px solid #ddd", padding: "8px" }}
-                          >
-                            {dieta.momento}
-                          </td>
-                          <td
-                            style={{ border: "1px solid #ddd", padding: "8px" }}
-                          >
-                            {dieta.comida
-                              ? dieta.comida
-                              : "Sin nombre disponible"}
-                          </td>
-                          <td
-                            style={{ border: "1px solid #ddd", padding: "8px" }}
-                          >
-                            {dieta.ingredientes
-                              ? dieta.ingredientes
-                              : "No hay ingredientes disponibles"}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ))}
-          </div>
-        ))}
+      <div className="container mt-5">
+        <h1 className="mb-4 text-center">Tu Dieta</h1>
+        {Object.keys(dietasAgrupadas)
+          .sort((a, b) => a - b)
+          .map((semana) => (
+            <div key={semana} className="mb-4">
+              <h2 style={{ color: "#ff5d39" }}>Semana {semana}</h2>
+              {Object.keys(dietasAgrupadas[semana])
+                .sort((a, b) => a - b)
+                .map((dia) => (
+                  <div key={dia} className="ms-4 mb-3">
+                    <h3 style={{ color: "#2c2f38" }}>Día {dia}</h3>
+                    <div className="table-responsive">
+                      <table className="table table-bordered">
+                        <thead className="table-dark">
+                          <tr>
+                            <th style={{ backgroundColor: "#202434" }}>
+                              Momento
+                            </th>
+                            <th style={{ backgroundColor: "#202434" }}>
+                              Comida
+                            </th>
+                            <th style={{ backgroundColor: "#202434" }}>
+                              Ingredientes
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dietasAgrupadas[semana][dia]
+                            .sort(
+                              (a, b) =>
+                                ordenMomentos.indexOf(a.momento.toLowerCase()) -
+                                ordenMomentos.indexOf(b.momento.toLowerCase())
+                            )
+                            .map((dieta, index) => (
+                              <tr
+                                key={index}
+                                className={
+                                  coloresMomentos[
+                                    dieta.momento.toLowerCase()
+                                  ] || ""
+                                }
+                              >
+                                <td>{dieta.momento}</td>
+                                <td>
+                                  {dieta.comida || "Sin nombre disponible"}
+                                </td>
+                                <td>
+                                  {dieta.ingredientes ||
+                                    "No hay ingredientes disponibles"}
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          ))}
+      </div>
       <Footer />
     </div>
   );
