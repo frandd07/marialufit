@@ -44,11 +44,12 @@ export default function AuthPage() {
 
   return (
     <div className="d-flex vh-100">
-      <div className="col-6 d-flex justify-content-center align-items-center">
+      <div className="col-6 d-flex justify-content-center align-items-center position-relative">
         <img
           src="/images/img_principal.jpg"
           alt="Imagen de fondo"
-          className="w-100 h-100 object-cover"
+          className="w-100 h-100 object-cover position-absolute"
+          style={{ objectFit: "cover" }}
         />
       </div>
       <div
@@ -58,23 +59,28 @@ export default function AuthPage() {
         <div
           className="p-4 rounded shadow-lg"
           style={{
-            width: "350px",
-            backgroundColor: "#585953", // Fondo gris oscuro
-            boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.3)", // Sombra clara
+            width: "400px",
+            backgroundColor: "#2c2f38", // Fondo oscuro mejorado
+            boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.5)", // Sombra sutil y más grande
+            borderRadius: "15px",
           }}
         >
-          <h1 className="text-center mb-4 text-white">
+          <h1 className="text-center mb-4 text-white font-weight-bold">
             {isRegistering ? "Registrarse" : "Iniciar Sesión"}
           </h1>
           <form onSubmit={handleAuth}>
             <div className="mb-3">
-              <label className="form-label">Correo</label>
+              <label className="form-label">Correo electrónico</label>
               <input
                 type="email"
                 className="form-control"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                style={{
+                  borderRadius: "10px",
+                  borderColor: "#FF6347",
+                }}
               />
             </div>
             <div className="mb-3">
@@ -85,6 +91,10 @@ export default function AuthPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                style={{
+                  borderRadius: "10px",
+                  borderColor: "#FF6347",
+                }}
               />
             </div>
             {isRegistering && (
@@ -96,6 +106,10 @@ export default function AuthPage() {
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
                   required
+                  style={{
+                    borderRadius: "10px",
+                    borderColor: "#FF6347",
+                  }}
                 />
               </div>
             )}
@@ -108,6 +122,8 @@ export default function AuthPage() {
                   color: "#fff",
                   border: "none",
                   borderRadius: "12px",
+                  padding: "10px",
+                  fontWeight: "bold",
                 }}
               >
                 {isRegistering ? "Registrar" : "Iniciar Sesión"}
@@ -121,6 +137,7 @@ export default function AuthPage() {
                 <button
                   onClick={() => setIsRegistering(false)}
                   className="btn btn-link"
+                  style={{ color: "#FF6347", fontWeight: "bold" }}
                 >
                   Inicia sesión
                 </button>
@@ -131,7 +148,7 @@ export default function AuthPage() {
                 <button
                   onClick={() => setIsRegistering(true)}
                   className="btn btn-link"
-                  style={{ color: "#ffc107" }}
+                  style={{ color: "#FFC107", fontWeight: "bold" }}
                 >
                   Regístrate
                 </button>
