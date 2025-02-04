@@ -89,7 +89,7 @@ export default function AuthPage() {
             </div>
             {isRegistering && (
               <div className="mb-3">
-                <label className="form-label">Clave</label>
+                <label className="form-label">Clave de entrenador</label>
                 <input
                   type="text"
                   className="form-control"
