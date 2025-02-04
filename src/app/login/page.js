@@ -131,6 +131,7 @@ export default function AuthPage() {
                 <button
                   onClick={() => setIsRegistering(true)}
                   className="btn btn-link"
+                  style={{ color: "#ffc107" }}
                 >
                   Regístrate
                 </button>
