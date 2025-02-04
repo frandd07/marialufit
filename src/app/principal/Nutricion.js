@@ -81,7 +81,7 @@ export default function Nutricion() {
               style={{ backgroundColor: "#1f2431" }}
             >
               <img
-                src="https://www.quironsalud.com/idcsalud-client/cm/images?locale=es_ES&idMmedia=1977468"
+                src="https://www.luisriverav.com/wp-content/uploads/2017/05/gym-supplements.jpg"
                 className="card-img-top"
                 alt="Nutrición 4"
               />
