@@ -109,7 +109,7 @@ export default function DietaPage() {
   }
 
   return (
-    <body style={{ backgroundColor: "#1e2330" }}>
+    <div style={{ backgroundColor: "#1e2330" }}>
       <div className="container mt-5">
         <h1 className="text-center mb-4 text-white">
           Plan de Dieta - Usuario {id}
@@ -261,6 +261,6 @@ export default function DietaPage() {
           </div>
         ))}
       </div>
-    </body>
+    </div>
   );
 }

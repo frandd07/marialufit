@@ -112,7 +112,7 @@ export default function EntrenoPage() {
   }
 
   return (
-    <body style={{ backgroundColor: "#1e2330" }}>
+    <div style={{ backgroundColor: "#1e2330" }}>
       <div className="container mt-5">
         <h1 className="text-center mb-4 text-white">
           Plan de Entreno - Usuario {id}
@@ -308,6 +308,6 @@ export default function EntrenoPage() {
           </div>
         ))}
       </div>
-    </body>
+    </div>
   );
 }
