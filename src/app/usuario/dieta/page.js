@@ -95,7 +95,7 @@ export default function DietaPage() {
                 .sort((a, b) => a - b)
                 .map((dia) => (
                   <div key={dia} className="ms-4 mb-3">
-                    <h3 style={{ color: "#ffc107  " }}>Día {dia}</h3>
+                    <h3 style={{ color: "#ffc107" }}>Día {dia}</h3>
                     <div className="table-responsive">
                       <table className="table table-bordered">
                         <thead className="table-dark">
@@ -115,15 +115,21 @@ export default function DietaPage() {
                           {dietasAgrupadas[semana][dia]
                             .sort(
                               (a, b) =>
-                                ordenMomentos.indexOf(a.momento.toLowerCase()) -
-                                ordenMomentos.indexOf(b.momento.toLowerCase())
+                                ordenMomentos.indexOf(
+                                  a.momento.toLowerCase().replace(/-/g, " ")
+                                ) -
+                                ordenMomentos.indexOf(
+                                  b.momento.toLowerCase().replace(/-/g, " ")
+                                )
                             )
                             .map((dieta, index) => (
                               <tr
                                 key={index}
                                 className={
                                   coloresMomentos[
-                                    dieta.momento.toLowerCase()
+                                    dieta.momento
+                                      .toLowerCase()
+                                      .replace(/-/g, " ")
                                   ] || ""
                                 }
                               >
