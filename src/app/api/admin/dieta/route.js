@@ -27,6 +27,11 @@ export async function GET(request) {
   return Response.json({ data }, { status: 200 });
 }
 
+// Función para capitalizar la primera letra
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -42,9 +47,16 @@ export async function POST(request) {
       );
     }
 
-    const { data, error } = await supabase
-      .from("dieta")
-      .insert([{ usuario_id, comida, ingredientes, momento, semana, dia }]);
+    const { data, error } = await supabase.from("dieta").insert([
+      {
+        usuario_id,
+        comida,
+        ingredientes,
+        momento: capitalizeFirstLetter(momento), // Capitalizamos el momento antes de guardar
+        semana,
+        dia,
+      },
+    ]);
 
     if (error) {
       console.error("Error en Supabase:", error);
