@@ -10,6 +10,8 @@ export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [clave, setClave] = useState(""); // Campo para la clave
+  // Estado para el mensaje de alerta: { type: "success" | "danger", message: string }
+  const [alert, setAlert] = useState(null);
   const router = useRouter();
 
   async function handleAuth(e) {
@@ -19,17 +21,30 @@ export default function AuthPage() {
       if (isRegistering) {
         const { error } = await REGISTER({ email, password, clave });
         if (error) {
-          alert("Error al registrarse: " + error.message);
+          setAlert({
+            type: "danger",
+            message: "Error al registrarse: " + error.message,
+          });
         } else {
-          alert("Registro exitoso. Ahora puedes iniciar sesión.");
+          setAlert({
+            type: "success",
+            message: "Registro exitoso. Ahora puedes iniciar sesión.",
+          });
           setIsRegistering(false);
         }
       } else {
         const { error, admin } = await LOGIN({ email, password });
         if (error) {
-          alert("Error al iniciar sesión: " + error.message);
+          setAlert({
+            type: "danger",
+            message: "Error al iniciar sesión: " + error.message,
+          });
         } else {
-          alert("Sesión iniciada con éxito.");
+          setAlert({
+            type: "success",
+            message: "Sesión iniciada con éxito.",
+          });
+          // Redirige según el rol
           if (admin) {
             router.push("/admin");
           } else {
@@ -38,7 +53,10 @@ export default function AuthPage() {
         }
       }
     } else {
-      alert("Por favor, completa todos los campos.");
+      setAlert({
+        type: "danger",
+        message: "Por favor, completa todos los campos.",
+      });
     }
   }
 
@@ -68,6 +86,24 @@ export default function AuthPage() {
           <h1 className="text-center mb-4 text-white font-weight-bold">
             {isRegistering ? "Registrarse" : "Iniciar Sesión"}
           </h1>
+
+          {/* Muestra el alert si existe */}
+          {alert && (
+            <div
+              className={`alert alert-${alert.type} alert-dismissible fade show`}
+              role="alert"
+            >
+              {alert.message}
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+                onClick={() => setAlert(null)}
+              ></button>
+            </div>
+          )}
+
           <form onSubmit={handleAuth}>
             <div className="mb-3">
               <label className="form-label">Correo electrónico</label>
@@ -135,7 +171,10 @@ export default function AuthPage() {
               <>
                 ¿Ya tienes cuenta?{" "}
                 <button
-                  onClick={() => setIsRegistering(false)}
+                  onClick={() => {
+                    setAlert(null);
+                    setIsRegistering(false);
+                  }}
                   className="btn btn-link"
                   style={{ color: "#FFC107", fontWeight: "bold" }}
                 >
@@ -146,7 +185,10 @@ export default function AuthPage() {
               <>
                 ¿No estás registrado?{" "}
                 <button
-                  onClick={() => setIsRegistering(true)}
+                  onClick={() => {
+                    setAlert(null);
+                    setIsRegistering(true);
+                  }}
                   className="btn btn-link"
                   style={{ color: "#FFC107", fontWeight: "bold" }}
                 >
