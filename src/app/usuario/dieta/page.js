@@ -8,8 +8,7 @@ import Footer from "../Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
+const supabaseKey = "TU_SUPABASE_KEY";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function DietaPage() {
@@ -24,19 +23,17 @@ export default function DietaPage() {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        router.push("/login"); // Redirigir si no está logueado
+        router.push("/login");
         return;
       }
       const response = await fetch(`/api/usuario/dieta?user_uuid=${user.id}`);
       const data = await response.json();
-      console.log("Respuesta del backend:", data);
 
       if (response.ok) {
         setDietas(data);
       } else {
         console.error("Error al obtener dietas:", data.error);
       }
-
       setLoading(false);
     }
 
@@ -62,6 +59,7 @@ export default function DietaPage() {
     return acc;
   }, {});
 
+  // Orden de los momentos del día
   const ordenMomentos = [
     "desayuno",
     "snack",
@@ -71,80 +69,67 @@ export default function DietaPage() {
     "pre entreno",
     "post entreno",
   ];
+
   const coloresMomentos = {
-    desayuno: "table-info",
-    snack: "table-light",
-    almuerzo: "table-warning",
-    merienda: "table-secondary",
-    cena: "table-success",
-    "pre entreno": "table-primary",
-    "post entreno": "table-danger",
+    desayuno: "text-info",
+    snack: "text-muted",
+    almuerzo: "text-warning",
+    merienda: "text-secondary",
+    cena: "text-primary",
+    "pre entreno": "text-success",
+    "post entreno": "text-danger",
   };
 
   return (
-    <div style={{ backgroundColor: "#202434" }}>
+    <div style={{ backgroundColor: "#202434", minHeight: "100vh" }}>
       <Header />
-      <div className="container mt-5" style={{ backgroundColor: "#202434" }}>
-        <h1 className="mb-4 text-center">Tu Dieta</h1>
+      <div className="container py-5">
+        <h1 className="mb-4 text-center text-white">Tu Dieta</h1>
         {Object.keys(dietasAgrupadas)
           .sort((a, b) => a - b)
           .map((semana) => (
             <div key={semana} className="mb-4">
-              <h2 style={{ color: "#ff5d39" }}>Semana {semana}</h2>
+              <h2 className="text-danger">Semana {semana}</h2>
               {Object.keys(dietasAgrupadas[semana])
                 .sort((a, b) => a - b)
                 .map((dia) => (
                   <div key={dia} className="ms-4 mb-3">
-                    <h3 style={{ color: "#ffc107" }}>Día {dia}</h3>
-                    <div className="table-responsive">
-                      <table className="table table-bordered">
-                        <thead className="table-dark">
-                          <tr>
-                            <th style={{ backgroundColor: "#585953" }}>
-                              Momento
-                            </th>
-                            <th style={{ backgroundColor: "#585953" }}>
-                              Comida
-                            </th>
-                            <th style={{ backgroundColor: "#585953" }}>
-                              Ingredientes
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dietasAgrupadas[semana][dia]
-                            .sort(
-                              (a, b) =>
-                                ordenMomentos.indexOf(
-                                  a.momento.toLowerCase().replace(/-/g, " ")
-                                ) -
-                                ordenMomentos.indexOf(
-                                  b.momento.toLowerCase().replace(/-/g, " ")
-                                )
+                    <h3 className="text-warning">Día {dia}</h3>
+                    <div className="list-group">
+                      {dietasAgrupadas[semana][dia]
+                        .sort(
+                          (a, b) =>
+                            ordenMomentos.indexOf(
+                              a.momento.toLowerCase().replace(/-/g, " ")
+                            ) -
+                            ordenMomentos.indexOf(
+                              b.momento.toLowerCase().replace(/-/g, " ")
                             )
-                            .map((dieta, index) => (
-                              <tr
-                                key={index}
-                                className={
-                                  coloresMomentos[
-                                    dieta.momento
-                                      .toLowerCase()
-                                      .replace(/-/g, " ")
-                                  ] || ""
-                                }
-                              >
-                                <td>{dieta.momento}</td>
-                                <td>
-                                  {dieta.comida || "Sin nombre disponible"}
-                                </td>
-                                <td>
-                                  {dieta.ingredientes ||
-                                    "No hay ingredientes disponibles"}
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
+                        )
+                        .map((dieta, index) => (
+                          <div
+                            key={index}
+                            className="list-group-item d-flex flex-column"
+                          >
+                            <strong
+                              className={
+                                coloresMomentos[
+                                  dieta.momento.toLowerCase().replace(/-/g, " ")
+                                ] || "text-white"
+                              }
+                            >
+                              {dieta.momento.toUpperCase()}
+                            </strong>
+                            <span>
+                              {dieta.comida || "Sin nombre disponible"}
+                            </span>
+                            <em>
+                              Ingredientes:{" "}
+                              {dieta.ingredientes ||
+                                "No hay ingredientes disponibles"}
+                            </em>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 ))}
