@@ -67,7 +67,7 @@ export default function Page() {
   if (loading) return <p className="text-center">Cargando datos...</p>;
 
   return (
-    <body className="body">
+    <body className="bodyy">
       <div className="container py-5 d-flex justify-content-center bg-image">
         <div
           className="card shadow-lg"
