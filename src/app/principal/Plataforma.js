@@ -38,14 +38,14 @@ export default function Plataforma() {
           <div className="carousel-inner">
             <div className="carousel-item active">
               <img
-                src="https://via.placeholder.com/800x400?text=Imagen+1"
+                src="/images/1.png"
                 className="d-block w-100"
                 alt="Primera imagen"
               />
             </div>
             <div className="carousel-item">
               <img
-                src="https://via.placeholder.com/800x400?text=Imagen+2"
+                src="/images/2.png"
                 className="d-block w-100"
                 alt="Segunda imagen"
               />
