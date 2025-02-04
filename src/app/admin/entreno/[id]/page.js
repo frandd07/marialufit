@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function EntrenoPage() {
   const { id } = useParams();
@@ -78,6 +79,23 @@ export default function EntrenoPage() {
     }
   }
 
+  async function handleDelete(id) {
+    if (confirm("\u00bfEstás seguro de que deseas eliminar este entreno?")) {
+      const res = await fetch("/api/admin/entreno", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (res.ok) {
+        alert("Entreno eliminado");
+        fetchEntrenos();
+      } else {
+        alert("Error al eliminar el entreno");
+      }
+    }
+  }
+
   function resetForm() {
     setNombre("");
     setGrupoMuscular("");
@@ -94,167 +112,202 @@ export default function EntrenoPage() {
   }
 
   return (
-    <div>
-      <h1>Plan de Entreno - Usuario {id}</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Nombre del ejercicio:</label>
-        <input
-          type="text"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
+    <body style={{ backgroundColor: "#1e2330" }}>
+      <div className="container mt-5">
+        <h1 className="text-center mb-4 text-white">
+          Plan de Entreno - Usuario {id}
+        </h1>
 
-        <label>Grupo muscular:</label>
-        <input
-          type="text"
-          value={grupoMuscular}
-          onChange={(e) => setGrupoMuscular(e.target.value)}
-        />
+        <form onSubmit={handleSubmit} className="mb-4">
+          <div className="mb-3">
+            <label className="form-label text-white">
+              Nombre del ejercicio:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+            />
+          </div>
 
-        <label>Series:</label>
-        <input
-          type="number"
-          value={series}
-          onChange={(e) => setSeries(Number(e.target.value))}
-          required
-        />
+          <div className="mb-3">
+            <label className="form-label text-white">Grupo muscular:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={grupoMuscular}
+              onChange={(e) => setGrupoMuscular(e.target.value)}
+            />
+          </div>
 
-        <label>Repeticiones asignadas (ej: 10-10-8-6):</label>
-        <input
-          type="text"
-          value={repes}
-          onChange={(e) => setRepes(e.target.value)}
-          required
-        />
-
-        <label>Tiempo bajo tensión (TUT):</label>
-        <input
-          type="number"
-          value={tut}
-          onChange={(e) => setTut(Number(e.target.value))}
-        />
-
-        <label>Repeticiones en reserva (RIR):</label>
-        <input
-          type="number"
-          value={rir}
-          onChange={(e) => setRir(Number(e.target.value))}
-        />
-
-        <label>Descanso (segundos):</label>
-        <input
-          type="number"
-          value={descanso}
-          onChange={(e) => setDescanso(Number(e.target.value))}
-        />
-
-        <label>Semana:</label>
-        <input
-          type="number"
-          min="1"
-          max="4"
-          value={semana}
-          onChange={(e) => setSemana(Number(e.target.value))}
-          required
-        />
-
-        <label>Día:</label>
-        <input
-          type="number"
-          min="1"
-          max="7"
-          value={dia}
-          onChange={(e) => setDia(Number(e.target.value))}
-          required
-        />
-
-        <label>Mes:</label>
-        <input
-          type="number"
-          min="1"
-          max="12"
-          value={mes}
-          onChange={(e) => setMes(Number(e.target.value))}
-          required
-        />
-
-        <label>Año:</label>
-        <input
-          type="number"
-          min="2020"
-          value={año}
-          onChange={(e) => setAño(Number(e.target.value))}
-          required
-        />
-
-        <button type="submit">{editingId ? "Actualizar" : "Asignar"}</button>
-      </form>
-
-      <h2>Entrenos Asignados</h2>
-
-      <label>Seleccionar Mes:</label>
-      <input
-        type="number"
-        min="1"
-        max="12"
-        value={mesSeleccionado}
-        onChange={(e) => setMesSeleccionado(Number(e.target.value))}
-      />
-
-      <label>Seleccionar Año:</label>
-      <input
-        type="number"
-        min="2020"
-        value={añoSeleccionado}
-        onChange={(e) => setAñoSeleccionado(Number(e.target.value))}
-      />
-
-      {Object.keys(entrenos).map((semana) => (
-        <div key={semana}>
-          <h3>Semana {semana}</h3>
-          {Object.keys(entrenos[semana]).map((dia) => (
-            <div key={dia}>
-              <h4>Día {dia}</h4>
-              <table
-                border="1"
-                style={{ width: "100%", borderCollapse: "collapse" }}
-              >
-                <thead>
-                  <tr>
-                    <th>Ejercicio</th>
-                    <th>Grupo Muscular</th>
-                    <th>Series</th>
-                    <th>Repeticiones</th>
-                    <th>TUT (seg)</th>
-                    <th>RIR</th>
-                    <th>Descanso (seg)</th>
-                    <th>Pesos (kg)</th>
-                    <th>Repeticiones Usuario</th>
-                    <th>Observaciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {entrenos[semana][dia].map((entreno, index) => (
-                    <tr key={index}>
-                      <td>{entreno.nombre}</td>
-                      <td>{entreno.grupo_muscular}</td>
-                      <td>{entreno.series}</td>
-                      <td>{entreno.repes}</td>
-                      <td>{entreno.tut}</td>
-                      <td>{entreno.rir}</td>
-                      <td>{entreno.descanso}</td>
-                      <td>{entreno.pesos || "-"}</td>
-                      <td>{entreno.repeticiones_usuario || "-"}</td>
-                      <td>{entreno.observaciones || "-"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="row">
+            <div className="col">
+              <label className="form-label text-white">Series:</label>
+              <input
+                type="number"
+                className="form-control"
+                value={series}
+                onChange={(e) => setSeries(Number(e.target.value))}
+                required
+              />
             </div>
-          ))}
-        </div>
-      ))}
-    </div>
+            <div className="col">
+              <label className="form-label text-white">Repeticiones:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={repes}
+                onChange={(e) => setRepes(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="row mt-3">
+            <div className="col">
+              <label className="form-label text-white">TUT (segundos):</label>
+              <input
+                type="number"
+                className="form-control"
+                value={tut}
+                onChange={(e) => setTut(Number(e.target.value))}
+              />
+            </div>
+            <div className="col">
+              <label className="form-label text-white">RIR:</label>
+              <input
+                type="number"
+                className="form-control"
+                value={rir}
+                onChange={(e) => setRir(Number(e.target.value))}
+              />
+            </div>
+            <div className="col">
+              <label className="form-label text-white">
+                Descanso (segundos):
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                value={descanso}
+                onChange={(e) => setDescanso(Number(e.target.value))}
+              />
+            </div>
+          </div>
+
+          <div className="row mt-3">
+            <div className="col">
+              <label className="form-label text-white">Semana:</label>
+              <input
+                type="number"
+                className="form-control"
+                min="1"
+                max="4"
+                value={semana}
+                onChange={(e) => setSemana(Number(e.target.value))}
+                required
+              />
+            </div>
+            <div className="col">
+              <label className="form-label text-white">Día:</label>
+              <input
+                type="number"
+                className="form-control"
+                min="1"
+                max="7"
+                value={dia}
+                onChange={(e) => setDia(Number(e.target.value))}
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="btn mt-3"
+            style={{
+              background: "linear-gradient(135deg, #FF6347, #FF4500)",
+              color: "#fff",
+              border: "none",
+              borderRadius: "12px",
+            }}
+          >
+            {editingId ? "Actualizar" : "Asignar"}
+          </button>
+        </form>
+
+        <h2 className="mb-3 text-white">Entrenos Asignados</h2>
+        {Object.keys(entrenos).map((week) => (
+          <div key={week} className="mb-4">
+            <h3 style={{ color: "#FF4500" }}>Semana {week}</h3>
+            {Object.keys(entrenos[week]).map((day) => (
+              <div key={day} className="mb-3">
+                <h4 style={{ color: "#ffc107" }}>Día {day}</h4>
+                <table className="table table-dark table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Ejercicio</th>
+                      <th>Grupo Muscular</th>
+                      <th>Series</th>
+                      <th>Repeticiones</th>
+                      <th>TUT (seg)</th>
+                      <th>RIR</th>
+                      <th>Descanso (seg)</th>
+                      <th>Pesos (kg)</th>
+                      <th>Repeticiones Usuario</th>
+                      <th>Observaciones</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {entrenos[week][day].map((entreno) => (
+                      <tr key={entreno.id}>
+                        <td>{entreno.nombre}</td>
+                        <td>{entreno.grupo_muscular}</td>
+                        <td>{entreno.series}</td>
+                        <td>{entreno.repes}</td>
+                        <td>{entreno.tut}</td>
+                        <td>{entreno.rir}</td>
+                        <td>{entreno.descanso}</td>
+                        <td>{entreno.pesos || "-"}</td>
+                        <td>{entreno.repeticiones_usuario || "-"}</td>
+                        <td>{entreno.observaciones || "-"}</td>
+                        <td>
+                          <button
+                            className="btn btn-warning btn-sm me-2"
+                            onClick={() => {
+                              setEditingId(entreno.id);
+                              setNombre(entreno.nombre);
+                              setGrupoMuscular(entreno.grupo_muscular);
+                              setSeries(entreno.series);
+                              setRepes(entreno.repes);
+                              setTut(entreno.tut);
+                              setRir(entreno.rir);
+                              setDescanso(entreno.descanso);
+                              setSemana(entreno.semana);
+                              setDia(entreno.dia);
+                            }}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => handleDelete(entreno.id)}
+                          >
+                            Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </body>
   );
 }
