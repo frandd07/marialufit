@@ -3,7 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Entrenamientos() {
   return (
-    <section id="entrenamientos" className="container my-5 bg-dark">
+    <section
+      id="entrenamientos"
+      className="container my-5"
+      style={{ background: "#1f2431" }}
+    >
       <div className="row">
         <div className="col-12 mb-4">
           <div

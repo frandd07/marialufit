@@ -13,7 +13,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="bg-dark">
+    <div style={{ backgroundColor: "#1f2431" }}>
       <Header />
 
       <div>
