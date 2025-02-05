@@ -67,7 +67,7 @@ export default function Page() {
   if (loading) return <p className="text-center">Cargando datos...</p>;
 
   return (
-    <body className="bodyy">
+    <body className="bodyy" style={{ backgroundColor: "#1f2431" }}>
       <div className="container py-5 d-flex justify-content-center bg-image">
         <div
           className="card shadow-lg"
@@ -76,7 +76,7 @@ export default function Page() {
           <div className="card-header bg-color text-white text-center p-3">
             <h2>Gestión de Claves</h2>
           </div>
-          <div className="card-body bg-light">
+          <div className="card-body" style={{ backgroundColor: "#1f2431" }}>
             {/* Sección de gestión de claves */}
             <div className="mb-5">
               <button
