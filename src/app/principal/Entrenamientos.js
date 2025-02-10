@@ -21,12 +21,9 @@ export default function Entrenamientos() {
             <div className="card-body text-center">
               <h2 className="card-title">Entrenamiento Presencial</h2>
               <p className="card-text">
-                Disfruta de un entrenamiento guiado en persona, con supervisión
-                y corrección en tiempo real.
+                Entrena con Marialu, corrige tu técnica al instante y sigue un
+                plan hecho para ti.
               </p>
-              <a href="#" className="btn btn-light fw-bold">
-                Más información
-              </a>
             </div>
           </div>
         </div>
@@ -38,19 +35,16 @@ export default function Entrenamientos() {
             style={{ backgroundColor: "#585953", borderRadius: "15px" }}
           >
             <img
-              src="https://via.placeholder.com/500x300"
+              src="/images/online.png"
               alt="Entrenamiento Online"
               className="card-img-top rounded-top"
             />
             <div className="card-body text-center">
               <h2 className="card-title">Entrenamiento Online</h2>
               <p className="card-text">
-                Accede a entrenamientos personalizados desde cualquier lugar con
-                soporte virtual.
+                Entrena donde quieras con rutinas personalizadas y seguimiento
+                profesional.
               </p>
-              <a href="#" className="btn btn-light fw-bold">
-                Más información
-              </a>
             </div>
           </div>
         </div>
