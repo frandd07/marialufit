@@ -57,6 +57,25 @@ export default function DietaPage() {
   if (dietas.length === 0)
     return <p className="text-center mt-5">No tienes dietas asignadas.</p>;
 
+  // Definir el orden de los momentos
+  const ordenMomentos = [
+    "desayuno",
+    "snack",
+    "almuerzo",
+    "merienda",
+    "cena",
+    "pre entreno",
+    "post entreno",
+  ];
+
+  // Función para ordenar los momentos según el orden definido
+  const ordenarMomentos = (a, b) => {
+    return (
+      ordenMomentos.indexOf(a.momento.toLowerCase()) -
+      ordenMomentos.indexOf(b.momento.toLowerCase())
+    );
+  };
+
   // Agrupar las dietas por semana y día
   const dietasAgrupadas = dietas.reduce((acc, dieta) => {
     if (!acc[dieta.semana]) acc[dieta.semana] = {};
@@ -149,28 +168,32 @@ export default function DietaPage() {
                   <div key={dia} className="ms-4 mb-3">
                     <h3 className="text-warning">Día {dia}</h3>
                     <div className="list-group">
-                      {dietasAgrupadas[semana][dia].map((dieta, index) => (
-                        <div
-                          key={index}
-                          className="list-group-item d-flex flex-column"
-                        >
-                          <strong
-                            className={
-                              coloresMomentos[
-                                dieta.momento.toLowerCase().replace(/-/g, " ")
-                              ] || "text-white"
-                            }
+                      {dietasAgrupadas[semana][dia]
+                        .sort(ordenarMomentos) // Ordenar por momento
+                        .map((dieta, index) => (
+                          <div
+                            key={index}
+                            className="list-group-item d-flex flex-column"
                           >
-                            {dieta.momento.toUpperCase()}
-                          </strong>
-                          <span>{dieta.comida || "Sin nombre disponible"}</span>
-                          <em>
-                            Ingredientes:{" "}
-                            {dieta.ingredientes ||
-                              "No hay ingredientes disponibles"}
-                          </em>
-                        </div>
-                      ))}
+                            <strong
+                              className={
+                                coloresMomentos[
+                                  dieta.momento.toLowerCase().replace(/-/g, " ")
+                                ] || "text-white"
+                              }
+                            >
+                              {dieta.momento.toUpperCase()}
+                            </strong>
+                            <span>
+                              {dieta.comida || "Sin nombre disponible"}
+                            </span>
+                            <em>
+                              Ingredientes:{" "}
+                              {dieta.ingredientes ||
+                                "No hay ingredientes disponibles"}
+                            </em>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 ))}
