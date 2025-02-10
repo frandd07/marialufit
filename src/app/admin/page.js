@@ -74,6 +74,9 @@ export default function Page() {
     user.nombre.toLowerCase().includes(filterText.toLowerCase())
   );
 
+  // Ordenar los usuarios filtrados para que los activos aparezcan arriba
+  const sortedUsers = [...filteredUsers].sort((a, b) => b.activo - a.activo);
+
   return (
     <body className="bodyy" style={{ backgroundColor: "#1f2431" }}>
       <div
@@ -145,7 +148,7 @@ export default function Page() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredUsers.map((user) => (
+                  {sortedUsers.map((user) => (
                     <tr
                       key={user.id}
                       className={user.activo ? "table-success" : ""}
