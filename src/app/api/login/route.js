@@ -5,7 +5,14 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function REGISTER({ email, password, clave }) {
+export async function REGISTER({
+  email,
+  password,
+  clave,
+  nombre,
+  apellido1,
+  apellido2,
+}) {
   // Verificar si la clave (id) existe en la tabla 'clave'
   const { data: claveData, error: claveError } = await supabase
     .from("clave")
@@ -30,10 +37,16 @@ export async function REGISTER({ email, password, clave }) {
   // Insertar en la tabla "admin"
   await supabase.from("admin").insert([{ email, admin: false }]);
 
-  // Insertar en la tabla "usuario"
-  const { error: insertError } = await supabase
-    .from("usuario")
-    .insert([{ correo: email, fk_id: uid }]);
+  // Insertar en la tabla "usuario" con los nuevos campos
+  const { error: insertError } = await supabase.from("usuario").insert([
+    {
+      correo: email,
+      fk_id: uid,
+      nombre,
+      apellido1,
+      apellido2,
+    },
+  ]);
 
   if (insertError) return { error: insertError };
 
