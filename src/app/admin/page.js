@@ -10,6 +10,7 @@ import {
 } from "../api/admin/route";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../adminstyle.css";
+import Header from "./header";
 
 export default function Page() {
   const [users, setUsers] = useState([]);
@@ -68,7 +69,11 @@ export default function Page() {
 
   return (
     <body className="bodyy" style={{ backgroundColor: "#1f2431" }}>
-      <div className="container py-5 d-flex justify-content-center bg-image">
+      <div
+        className="container py-5 d-flex justify-content-center bg-image"
+        style={{ marginTop: "80px" }}
+      >
+        <Header />
         <div
           className="card shadow-lg"
           style={{ width: "80%", maxWidth: "900px" }}
