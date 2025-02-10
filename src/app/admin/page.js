@@ -16,6 +16,7 @@ export default function Page() {
   const [users, setUsers] = useState([]);
   const [keys, setKeys] = useState([]); // Estado para las claves
   const [loading, setLoading] = useState(true);
+  const [filterText, setFilterText] = useState(""); // Estado para el filtrado por nombre
   const router = useRouter();
 
   useEffect(() => {
@@ -68,6 +69,11 @@ export default function Page() {
   if (loading)
     return <p className="text-center text-light">Cargando datos...</p>;
 
+  // Filtrar usuarios por nombre
+  const filteredUsers = users.filter((user) =>
+    user.nombre.toLowerCase().includes(filterText.toLowerCase())
+  );
+
   return (
     <body className="bodyy" style={{ backgroundColor: "#1f2431" }}>
       <div
@@ -112,6 +118,16 @@ export default function Page() {
             <div className="card-header bg-color text-white text-center p-3">
               <h2>Usuarios Registrados</h2>
             </div>
+            {/* Input de búsqueda para filtrar por nombre */}
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Filtrar por nombre..."
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+              />
+            </div>
             <div className="table-responsive">
               <table
                 className="table table-hover table-bordered table-striped mb-0"
@@ -129,7 +145,7 @@ export default function Page() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {filteredUsers.map((user) => (
                     <tr
                       key={user.id}
                       className={user.activo ? "table-success" : ""}
