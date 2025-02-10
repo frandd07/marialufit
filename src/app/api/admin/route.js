@@ -3,18 +3,22 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
 const serviceRoleKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczNjkzMjM1OSwiZXhwIjoyMDUyNTA4MzU5fQ.7OxgILGMRO42sAAXNvFPlK8Ej6xAt6U1MBkAeB5Qd9o"; // ⚠️ Mantén esta clave en el backend
+
 const supabase = createClient(supabaseUrl, serviceRoleKey, {
   auth: { persistSession: false },
 });
 
+// Función actualizada para obtener los usuarios usando "correo" en lugar de "email"
 export async function GET_USERS() {
-  const { data, error } = await supabase.from("usuario").select("*");
+  const { data, error } = await supabase
+    .from("usuario")
+    .select("id, correo, nombre, apellido1, apellido2, activo");
 
   if (error) {
     return { error };
   }
 
-  return { data }; // Devuelve todos los usuarios de la tabla 'usuario'
+  return { data }; // Devuelve los usuarios con los campos especificados
 }
 
 export async function TOGGLE_USER_ACTIVE(userId, isActive) {

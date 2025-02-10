@@ -65,12 +65,13 @@ export default function Page() {
     }
   };
 
-  if (loading) return <p className="text-center">Cargando datos...</p>;
+  if (loading)
+    return <p className="text-center text-light">Cargando datos...</p>;
 
   return (
     <body className="bodyy" style={{ backgroundColor: "#1f2431" }}>
       <div
-        className="container py-5 d-flex justify-content-center bg-image"
+        className="container py-5 d-flex flex-column align-items-center bg-image"
         style={{ marginTop: "80px" }}
       >
         <Header />
@@ -111,51 +112,68 @@ export default function Page() {
             <div className="card-header bg-color text-white text-center p-3">
               <h2>Usuarios Registrados</h2>
             </div>
-            <table className="table table-hover table-bordered">
-              <thead className="thead-light">
-                <tr>
-                  <th>ID</th>
-                  <th>Correo</th>
-                  <th>Activo</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr
-                    key={user.id}
-                    className={user.activo ? "table-success" : ""}
-                  >
-                    <td>{user.id}</td>
-                    <td>{user.correo}</td>
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={user.activo}
-                        onChange={() =>
-                          handleToggleActive(user.id, user.activo)
-                        }
-                        className="form-check-input"
-                      />
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => router.push(`/admin/dieta/${user.id}`)}
-                        className="btn btn-gradient-primary btn-lg me-3"
-                      >
-                        Asignar Dieta
-                      </button>
-                      <button
-                        onClick={() => router.push(`/admin/entreno/${user.id}`)}
-                        className="btn btn-gradient-secondary btn-lg"
-                      >
-                        Asignar Entreno
-                      </button>
-                    </td>
+            <div className="table-responsive">
+              <table
+                className="table table-hover table-bordered table-striped mb-0"
+                style={{ fontSize: "0.9rem" }}
+              >
+                <thead className="thead-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Correo</th>
+                    <th>Nombre</th>
+                    <th>Apellido 1</th>
+                    <th>Apellido 2</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr
+                      key={user.id}
+                      className={user.activo ? "table-success" : ""}
+                    >
+                      <td>{user.id}</td>
+                      <td>{user.correo}</td>
+                      <td>{user.nombre}</td>
+                      <td>{user.apellido1}</td>
+                      <td>{user.apellido2}</td>
+                      <td className="text-center">
+                        <input
+                          type="checkbox"
+                          checked={user.activo}
+                          onChange={() =>
+                            handleToggleActive(user.id, user.activo)
+                          }
+                          className="form-check-input"
+                        />
+                      </td>
+                      <td>
+                        <div className="btn-group btn-group-sm" role="group">
+                          <button
+                            onClick={() =>
+                              router.push(`/admin/dieta/${user.id}`)
+                            }
+                            className="btn btn-gradient-primary"
+                          >
+                            Asignar Dieta
+                          </button>
+                          <button
+                            onClick={() =>
+                              router.push(`/admin/entreno/${user.id}`)
+                            }
+                            className="btn btn-gradient-secondary"
+                          >
+                            Asignar Entreno
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

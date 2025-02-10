@@ -26,7 +26,7 @@ export default function Header() {
       >
         <div className="container d-flex justify-content-between align-items-center">
           {/* Logo en el centro */}
-          <a className="navbar-brand mx-auto" href="#">
+          <a className="navbar-brand mx-auto" href="/principal">
             <img
               src="/images/logo.png"
               alt="MarialuFit Logo"
