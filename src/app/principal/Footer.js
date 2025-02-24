@@ -6,6 +6,7 @@ import {
   faInstagram,
   faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
+import emailjs from "@emailjs/browser";
 
 export default function Footer() {
   const [showModal, setShowModal] = useState(false);
@@ -15,9 +16,25 @@ export default function Footer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes manejar el envío del formulario, por ejemplo, haciendo una llamada a una API
-    console.log("Formulario enviado");
-    handleClose();
+
+    emailjs
+      .sendForm(
+        "service_7c3vjfy", // Reemplaza con tu Service ID de EmailJS
+        "template_vf3tkm9", // Reemplaza con tu Template ID de EmailJS
+        e.target,
+        "Pef4ege9sttw8eoJS" // Reemplaza con tu Public Key de EmailJS
+      )
+      .then(
+        (result) => {
+          console.log("Mensaje enviado", result.text);
+          alert("Mensaje enviado correctamente");
+          handleClose();
+        },
+        (error) => {
+          console.error("Error al enviar el mensaje:", error.text);
+          alert("Error al enviar el mensaje, por favor intenta nuevamente");
+        }
+      );
   };
 
   return (
@@ -34,7 +51,6 @@ export default function Footer() {
               </p>
             </Col>
             <Col md={6} className="text-center text-md-end">
-              {/* Botón de Contacto */}
               <Button
                 variant="primary"
                 onClick={handleShow}
@@ -77,7 +93,6 @@ export default function Footer() {
         </Container>
       </footer>
 
-      {/* Modal del formulario de contacto */}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Contacto</Modal.Title>
@@ -88,6 +103,7 @@ export default function Footer() {
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
+                name="user_name"
                 placeholder="Ingresa tu nombre"
                 required
               />
@@ -96,6 +112,7 @@ export default function Footer() {
               <Form.Label>Correo Electrónico</Form.Label>
               <Form.Control
                 type="email"
+                name="user_email"
                 placeholder="Ingresa tu correo"
                 required
               />
@@ -104,6 +121,7 @@ export default function Footer() {
               <Form.Label>Mensaje</Form.Label>
               <Form.Control
                 as="textarea"
+                name="message"
                 rows={3}
                 placeholder="Escribe tu mensaje"
                 required
