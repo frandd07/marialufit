@@ -40,7 +40,7 @@ export default function Footer() {
   return (
     <>
       <footer
-        className="bg-dark text-light py-4"
+        className="text-light py-4"
         style={{ backgroundColor: "#1f2431" }}
       >
         <Container>
