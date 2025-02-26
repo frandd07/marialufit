@@ -1,9 +1,13 @@
 "use client";
 import React from "react";
+import { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 export default function Header() {
+  useEffect(() => {
+    // Importa dinámicamente el JS de Bootstrap solo en el cliente
+    import("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
   return (
     <>
       <header>

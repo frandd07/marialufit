@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Container, Row, Col, Modal, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
