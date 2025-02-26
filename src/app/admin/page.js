@@ -10,7 +10,7 @@ import {
 } from "../api/admin/route";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../adminstyle.css";
-import Header from "./header";
+import Header from "./Header";
 
 export default function Page() {
   const [users, setUsers] = useState([]);
@@ -88,7 +88,10 @@ export default function Page() {
           className="card shadow-lg"
           style={{ width: "80%", maxWidth: "900px" }}
         >
-          <div className="card-header bg-color text-white text-center p-3">
+          <div
+            className="card-header text-white text-center p-3"
+            style={{ backgroundColor: "#585953" }}
+          >
             <h2>Gestión de Claves</h2>
           </div>
           <div className="card-body" style={{ backgroundColor: "#1f2431" }}>

@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Header from "../../Header";
+import Footer from "@/app/usuario/Footer";
 
 export default function DietaPage() {
   const { id } = useParams();
@@ -110,7 +112,9 @@ export default function DietaPage() {
 
   return (
     <div style={{ backgroundColor: "#1e2330" }}>
-      <div className="container mt-5">
+      <Header />
+      {/* Se agrega padding-top para evitar que el contenido quede oculto detrás del header fijo */}
+      <div className="container" style={{ paddingTop: "80px" }}>
         <h1 className="text-center mb-4 text-white">
           Plan de Dieta - Usuario {id}
         </h1>
@@ -261,6 +265,7 @@ export default function DietaPage() {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 }

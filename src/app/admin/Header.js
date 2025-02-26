@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // Configurar Supabase
 const supabase = createClient(
@@ -25,11 +27,27 @@ export default function Header() {
         style={{ backgroundColor: "#202434" }}
       >
         <div className="container">
-          {/* Menú de navegación */}
-          <div className="collapse navbar-collapse justify-content-center">
-            <ul className="navbar-nav ms-auto">
-              {" "}
-              {/* Se añadió ms-auto aquí */}
+          {/* Enlace con logo que dirige a la página principal de admin */}
+          <Link href="/admin" className="navbar-brand">
+            <Image src="/images/logo.png" alt="Logo" width={80} height={60} />
+          </Link>
+          {/* Botón toggler para pantallas móviles */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div
+            className="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <ul className="navbar-nav">
               <li className="nav-item">
                 <button
                   className="btn btn-danger nav-link"

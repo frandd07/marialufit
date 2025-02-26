@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Header from "../../Header";
+import Footer from "@/app/usuario/Footer";
 
 export default function EntrenoPage() {
   const { id } = useParams();
@@ -113,7 +115,9 @@ export default function EntrenoPage() {
 
   return (
     <div style={{ backgroundColor: "#1e2330" }}>
-      <div className="container mt-5">
+      <Header />
+      {/* Se agrega padding-top para que el contenido no se superponga al header fijo */}
+      <div className="container" style={{ paddingTop: "80px" }}>
         <h1 className="text-center mb-4 text-white">
           Plan de Entreno - Usuario {id}
         </h1>
@@ -308,6 +312,7 @@ export default function EntrenoPage() {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 }
