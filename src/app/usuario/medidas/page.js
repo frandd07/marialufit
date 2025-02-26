@@ -18,6 +18,8 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Registra los componentes de Chart.js
 ChartJS.register(
@@ -73,7 +75,7 @@ export default function Page() {
 
     return () => {
       if (authListener && typeof authListener.remove === "function") {
-        authListener.remove(); // Eliminar el listener si es una función válida
+        authListener.remove();
       }
     };
   }, [router]);
@@ -98,8 +100,8 @@ export default function Page() {
           {
             label: "Peso",
             data: weights,
-            borderColor: "#FF6347", // Naranja (como el botón)
-            backgroundColor: "rgba(255, 99, 71, 0.2)", // Naranja con opacidad
+            borderColor: "#FF6347",
+            backgroundColor: "rgba(255, 99, 71, 0.2)",
             fill: true,
           },
         ],
@@ -112,20 +114,20 @@ export default function Page() {
     if (session && peso && fecha) {
       const { error } = await SAVE_MEASURE(session.user.id, peso, fecha);
       if (error) {
-        alert("Error al guardar la medida: " + error.message);
+        toast.error("Error al guardar la medida: " + error.message);
       } else {
-        alert("Medida guardada exitosamente.");
+        toast.success("Medida guardada exitosamente.");
         getMeasures(session.user.id);
       }
     } else {
-      alert("Por favor, completa todos los campos.");
+      toast.warn("Por favor, completa todos los campos.");
     }
   }
 
   async function getMeasures(userId) {
     const { data, error } = await GET_MEASURES(userId);
     if (error) {
-      alert("Error al obtener las medidas.");
+      toast.error("Error al obtener las medidas.");
     } else {
       setMeasures(data);
     }
@@ -194,7 +196,7 @@ export default function Page() {
 
         {/* Tabla de medidas registradas */}
         <div className="card mt-4 p-4">
-          <h3>Mis Medidas Registradas</h3>
+          <h3 className="text-white">Mis Medidas Registradas</h3>
           {measures.length > 0 ? (
             <table className="table table-striped text-white">
               <thead>
@@ -227,28 +229,28 @@ export default function Page() {
               plugins: {
                 legend: {
                   labels: {
-                    color: "#fff", // Coloca las etiquetas de la leyenda en blanco
+                    color: "#fff",
                   },
                 },
                 tooltip: {
-                  bodyColor: "#fff", // Coloca el texto del tooltip en blanco
+                  bodyColor: "#fff",
                 },
               },
               scales: {
                 x: {
                   ticks: {
-                    color: "#fff", // Coloca las fechas en blanco
+                    color: "#fff",
                   },
                   grid: {
-                    color: "#fff", // Las cuadrículas del eje X en blanco
+                    color: "#fff",
                   },
                 },
                 y: {
                   ticks: {
-                    color: "#fff", // Las marcas en el eje Y en blanco
+                    color: "#fff",
                   },
                   grid: {
-                    color: "#fff", // Las cuadrículas del eje Y en blanco
+                    color: "#fff",
                   },
                 },
               },
@@ -258,6 +260,12 @@ export default function Page() {
       </div>
 
       <Footer />
+      {/* Contenedor de notificaciones */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+      />
     </div>
   );
 }
