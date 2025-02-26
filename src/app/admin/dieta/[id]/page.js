@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../../Header";
 import Footer from "@/app/usuario/Footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DietaPage() {
   const { id } = useParams();
@@ -76,11 +78,11 @@ export default function DietaPage() {
     });
 
     if (res.ok) {
-      alert(editingId ? "Dieta actualizada" : "Dieta asignada");
+      toast.success(editingId ? "Dieta actualizada" : "Dieta asignada");
       resetForm();
       fetchDietas();
     } else {
-      alert("Error al asignar/actualizar la dieta");
+      toast.error("Error al asignar/actualizar la dieta");
     }
   }
 
@@ -93,10 +95,10 @@ export default function DietaPage() {
       });
 
       if (res.ok) {
-        alert("Dieta eliminada");
+        toast.success("Dieta eliminada");
         fetchDietas();
       } else {
-        alert("Error al eliminar la dieta");
+        toast.error("Error al eliminar la dieta");
       }
     }
   }
@@ -266,6 +268,7 @@ export default function DietaPage() {
         ))}
       </div>
       <Footer />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );
 }
