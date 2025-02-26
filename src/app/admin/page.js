@@ -8,32 +8,77 @@ import {
   GET_KEYS,
   DELETE_KEY,
 } from "../api/admin/route";
+import { createClient } from "@supabase/supabase-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../adminstyle.css";
 import Header from "./Header";
+
+// Configuración de Supabase
+const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Page() {
   const [users, setUsers] = useState([]);
   const [keys, setKeys] = useState([]); // Estado para las claves
   const [loading, setLoading] = useState(true);
-  const [filterText, setFilterText] = useState(""); // Estado para el filtrado por nombre
+  const [filterText, setFilterText] = useState(""); // Estado para filtrar usuarios
   const router = useRouter();
 
   useEffect(() => {
-    async function fetchData() {
-      const { data: usersData, error: usersError } = await GET_USERS();
-      const { data: keysData, error: keysError } = await GET_KEYS();
+    async function checkAdminAndFetchData() {
+      // 1. Verificar la sesión del usuario
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
 
+      if (sessionError) {
+        console.error("Error al obtener la sesión:", sessionError);
+        router.push("/login");
+        return;
+      }
+
+      if (!session) {
+        console.warn("No hay sesión activa");
+        router.push("/login");
+        return;
+      }
+
+      // 2. Verificar que el usuario sea admin consultando la tabla "admin"
+      const userEmail = session.user.email;
+      const { data: adminData, error: adminError } = await supabase
+        .from("admin")
+        .select("admin")
+        .eq("email", userEmail)
+        .single();
+
+      if (adminError) {
+        console.error("Error al consultar datos de admin:", adminError);
+        router.push("/");
+        return;
+      }
+
+      if (!adminData || !adminData.admin) {
+        console.warn("El usuario no tiene privilegios de administrador");
+        router.push("/");
+        return;
+      }
+
+      // 3. Si pasó la verificación, obtener los datos de usuarios y claves
+      const { data: usersData, error: usersError } = await GET_USERS();
       if (usersError) alert("Error al obtener usuarios: " + usersError.message);
       else setUsers(usersData);
 
+      const { data: keysData, error: keysError } = await GET_KEYS();
       if (keysError) alert("Error al obtener claves: " + keysError.message);
       else setKeys(keysData);
 
       setLoading(false);
     }
-    fetchData();
-  }, []);
+    checkAdminAndFetchData();
+  }, [router]);
 
   const handleToggleActive = async (userId, isActive) => {
     const { error } = await TOGGLE_USER_ACTIVE(userId, !isActive);
@@ -74,7 +119,7 @@ export default function Page() {
     user.nombre.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  // Ordenar los usuarios filtrados para que los activos aparezcan arriba
+  // Ordenar los usuarios filtrados para que los activos aparezcan primero
   const sortedUsers = [...filteredUsers].sort((a, b) => b.activo - a.activo);
 
   return (
