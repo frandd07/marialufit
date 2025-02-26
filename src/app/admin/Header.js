@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { useEffect } from "react";
 
 // Configurar Supabase
 const supabase = createClient(
@@ -14,6 +14,11 @@ const supabase = createClient(
 
 export default function Header() {
   const router = useRouter();
+
+  useEffect(() => {
+    // This import runs only in the browser
+    import("bootstrap/dist/js/bootstrap.bundle.min.js");
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
