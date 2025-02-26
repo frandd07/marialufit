@@ -3,12 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 // Configurar Supabase
-const supabase = createClient(
-  "https://yyygruoaphtgzslboctz.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc"
-);
+const supabase = createClient("https://xxx.supabase.co", "TOKEN_AQUI");
 
 export default function Header() {
   const router = useRouter();
@@ -25,8 +23,8 @@ export default function Header() {
         style={{ backgroundColor: "#202434" }}
       >
         <div className="container">
-          {/* Logo en el centro */}
-          <a className="navbar-brand mx-auto" href="#">
+          {/* LOGO (centrado en pantallas grandes, pero a la izquierda en móviles) */}
+          <a className="navbar-brand mx-lg-auto" href="#">
             <img
               src="/images/logo.png"
               alt="MarialuFit Logo"
@@ -34,8 +32,24 @@ export default function Header() {
             />
           </a>
 
-          {/* Menú de navegación */}
-          <div className="collapse navbar-collapse justify-content-center">
+          {/* BOTÓN HAMBURGUESA (visible en pantallas pequeñas) */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          {/* Menú de navegación colapsable */}
+          <div
+            className="collapse navbar-collapse justify-content-center"
+            id="navbarNav"
+          >
             <ul className="navbar-nav">
               <li className="nav-item">
                 <Link className="nav-link" href="/usuario/entreno">
