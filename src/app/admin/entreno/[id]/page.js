@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../../Header";
 import Footer from "@/app/usuario/Footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EntrenoPage() {
   const { id } = useParams();
@@ -73,16 +75,16 @@ export default function EntrenoPage() {
     });
 
     if (res.ok) {
-      alert(editingId ? "Entreno actualizado" : "Entreno asignado");
+      toast.success(editingId ? "Entreno actualizado" : "Entreno asignado");
       resetForm();
       fetchEntrenos();
     } else {
-      alert("Error al asignar/actualizar el entreno");
+      toast.error("Error al asignar/actualizar el entreno");
     }
   }
 
   async function handleDelete(id) {
-    if (confirm("\u00bfEstás seguro de que deseas eliminar este entreno?")) {
+    if (window.confirm("¿Estás seguro de que deseas eliminar este entreno?")) {
       const res = await fetch("/api/admin/entreno", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -90,10 +92,10 @@ export default function EntrenoPage() {
       });
 
       if (res.ok) {
-        alert("Entreno eliminado");
+        toast.success("Entreno eliminado");
         fetchEntrenos();
       } else {
-        alert("Error al eliminar el entreno");
+        toast.error("Error al eliminar el entreno");
       }
     }
   }
@@ -114,9 +116,9 @@ export default function EntrenoPage() {
   }
 
   return (
-    <div style={{ backgroundColor: "#1e2330" }}>
+    <div style={{ backgroundColor: "#1e2330", minHeight: "100vh" }}>
       <Header />
-      {/* Se agrega padding-top para que el contenido no se superponga al header fijo */}
+      {/* Se agrega padding-top para compensar el header fijo */}
       <div className="container" style={{ paddingTop: "80px" }}>
         <h1 className="text-center mb-4 text-white">
           Plan de Entreno - Usuario {id}
@@ -313,6 +315,7 @@ export default function EntrenoPage() {
         ))}
       </div>
       <Footer />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );
 }
