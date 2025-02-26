@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Header() {
@@ -8,6 +7,7 @@ export default function Header() {
     // Importa dinámicamente el JS de Bootstrap solo en el cliente
     import("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
+
   return (
     <>
       <header>
@@ -39,11 +39,6 @@ export default function Header() {
               <div className="d-flex w-100 justify-content-between align-items-center">
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <a className="nav-link" href="#quiensoybueno">
-                      Quién soy
-                    </a>
-                  </li>
-                  <li className="nav-item">
                     <a className="nav-link" href="#objetivos">
                       Objetivos
                     </a>
@@ -68,11 +63,7 @@ export default function Header() {
                       Entrenamientos
                     </a>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#plataforma">
-                      Plataforma
-                    </a>
-                  </li>
+                  {/* Se ha eliminado cualquier otra parte de "Sobre mi" en el header */}
                   <li className="nav-item">
                     <a className="nav-link" href="../login">
                       <i className="bi bi-person"></i>
@@ -84,7 +75,7 @@ export default function Header() {
           </div>
         </nav>
 
-        {/* Imagen de fondo con Título y Subtítulo centrados */}
+        {/* Imagen de fondo con Título, Subtítulo y Botón */}
         <div
           className="hero d-flex flex-column justify-content-center align-items-center text-center"
           style={{
@@ -115,6 +106,22 @@ export default function Header() {
           >
             TRUST THE PROCESS
           </p>
+          {/* Botón con degradado naranja más oscuro */}
+          <a
+            href="#quiensoybueno"
+            className="btn btn-lg mt-4"
+            style={{
+              background: "linear-gradient(to right, #d35400, #e67e22)",
+              border: "none",
+              color: "white",
+              padding: "0.75rem 1.5rem",
+              borderRadius: "50px",
+              fontWeight: "600",
+              textDecoration: "none",
+            }}
+          >
+            Sobre mi
+          </a>
         </div>
       </header>
 

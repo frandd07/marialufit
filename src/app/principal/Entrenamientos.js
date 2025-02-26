@@ -14,7 +14,7 @@ export default function Entrenamientos() {
             style={{ backgroundColor: "#2e3c59", borderRadius: "15px" }}
           >
             <img
-              src="/images/presencial.jpg"
+              src="/images/presencial.png"
               alt="Entrenamiento Presencial"
               className="card-img-top rounded-top"
             />
