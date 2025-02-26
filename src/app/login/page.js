@@ -199,7 +199,7 @@ export default function AuthPage() {
                         className="form-label text-white"
                         style={{ fontSize: "14px" }}
                       >
-                        Apellido 1
+                        Primer apellido
                       </label>
                       <input
                         id="apellido1"
@@ -216,7 +216,7 @@ export default function AuthPage() {
                         className="form-label text-white"
                         style={{ fontSize: "14px" }}
                       >
-                        Apellido 2
+                        Segundo apellido
                       </label>
                       <input
                         id="apellido2"
