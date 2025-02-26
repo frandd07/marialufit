@@ -44,18 +44,6 @@ export default function QuienSoy() {
               a través de la salud y el bienestar. Mi objetivo es inspirarte y
               acompañarte en cada paso hacia una vida más activa y equilibrada.
             </p>
-
-            <button
-              className="btn px-4 py-2"
-              style={{
-                background: "linear-gradient(135deg, #FF6347, #FF4500)",
-                color: "#fff",
-                border: "none",
-                borderRadius: "12px",
-              }}
-            >
-              Conoce más
-            </button>
           </div>
         </div>
       </section>

@@ -158,7 +158,7 @@ export default function EntrenoUsuarioPage() {
                                 <td>{entreno.repes}</td>
                                 <td>
                                   <input
-                                    type="number"
+                                    type="text"
                                     className="form-control"
                                     value={entreno.pesos || ""}
                                     onChange={(e) =>
@@ -168,7 +168,7 @@ export default function EntrenoUsuarioPage() {
                                 </td>
                                 <td>
                                   <input
-                                    type="number"
+                                    type="text"
                                     className="form-control"
                                     value={entreno.repeticiones_usuario || ""}
                                     onChange={(e) =>
@@ -180,6 +180,7 @@ export default function EntrenoUsuarioPage() {
                                     }
                                   />
                                 </td>
+
                                 <td>
                                   <input
                                     type="text"

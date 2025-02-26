@@ -14,7 +14,7 @@ export default function Entrenamientos() {
             style={{ backgroundColor: "#2e3c59", borderRadius: "15px" }}
           >
             <img
-              src="https://via.placeholder.com/500x300"
+              src="/images/presencial.jpg"
               alt="Entrenamiento Presencial"
               className="card-img-top rounded-top"
             />

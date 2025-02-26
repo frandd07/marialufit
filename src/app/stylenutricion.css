@@ -9,7 +9,7 @@
 
 /* Configuramos un borde más ancho para todas las tarjetas */
 .card {
-  border: 4px solid #fff; /* Puedes ajustar el grosor y el color */
+  border: 4px solid #585953; /* Puedes ajustar el grosor y el color */
   border-radius: 8px; /* Opcional: redondear las esquinas */
 }
 
