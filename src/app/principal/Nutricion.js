@@ -1,5 +1,5 @@
 import React from "react";
-import "../stylenutricion.css"; // Archivo de estilos personalizados
+import "../stylenutricion.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Nutricion() {

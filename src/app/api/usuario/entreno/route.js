@@ -1,4 +1,3 @@
-// Backend actualizado para filtrar por mes y año
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";

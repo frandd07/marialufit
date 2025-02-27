@@ -31,13 +31,13 @@ export default function DietaPage() {
 
   // Objeto que asocia cada momento a un color
   const momentoColors = {
-    desayuno: "#00CED1", // DarkTurquoise
-    snack: "#FF8C00", // Naranja oscuro
-    almuerzo: "#FF4500", // OrangeRed
-    merienda: "#B8860B", // DarkGoldenrod (más oscuro)
-    cena: "#1E90FF", // Azul DodgerBlue
-    "pre-entreno": "#8A2BE2", // Violeta
-    "post-entreno": "#FF1493", // Rosa fuerte
+    desayuno: "#00CED1",
+    snack: "#FF8C00",
+    almuerzo: "#FF4500",
+    merienda: "#B8860B",
+    cena: "#1E90FF",
+    "pre-entreno": "#8A2BE2",
+    "post-entreno": "#FF1493",
   };
 
   useEffect(() => {
@@ -115,7 +115,6 @@ export default function DietaPage() {
   return (
     <div style={{ backgroundColor: "#1e2330" }}>
       <Header />
-      {/* Se agrega padding-top para evitar que el contenido quede oculto detrás del header fijo */}
       <div className="container" style={{ paddingTop: "80px" }}>
         <h1 className="text-center mb-4 text-white">
           Plan de Dieta - Usuario {id}
@@ -221,7 +220,6 @@ export default function DietaPage() {
                         className="list-group-item d-flex justify-content-between align-items-center"
                       >
                         <div>
-                          {/* Se aplica el color según el momento */}
                           <strong
                             style={{
                               color: momentoColors[dieta.momento] || "inherit",

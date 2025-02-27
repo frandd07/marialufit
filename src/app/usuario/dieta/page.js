@@ -57,7 +57,7 @@ export default function DietaPage() {
   if (dietas.length === 0)
     return <p className="text-center mt-5">No tienes dietas asignadas.</p>;
 
-  // Definir el orden de los momentos
+  // Orden de momentos a mi gusto
   const ordenMomentos = [
     "desayuno",
     "snack",
@@ -68,7 +68,7 @@ export default function DietaPage() {
     "post entreno",
   ];
 
-  // Función para ordenar los momentos según el orden definido
+  // Ordenar los momentos según el orden definido
   const ordenarMomentos = (a, b) => {
     return (
       ordenMomentos.indexOf(a.momento.toLowerCase()) -
@@ -115,7 +115,7 @@ export default function DietaPage() {
               value={semanaSeleccionada}
               onChange={(e) => {
                 setSemanaSeleccionada(e.target.value);
-                setDiaSeleccionado("all"); // Reinicia el filtro de día al cambiar la semana
+                setDiaSeleccionado("all");
               }}
             >
               <option value="all">Todas las semanas</option>
@@ -169,7 +169,7 @@ export default function DietaPage() {
                     <h3 className="text-warning">Día {dia}</h3>
                     <div className="list-group">
                       {dietasAgrupadas[semana][dia]
-                        .sort(ordenarMomentos) // Ordenar por momento
+                        .sort(ordenarMomentos)
                         .map((dieta, index) => (
                           <div
                             key={index}

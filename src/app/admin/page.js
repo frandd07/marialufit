@@ -13,7 +13,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../adminstyle.css";
 import Header from "./Header";
 
-// Configuración de Supabase
 const supabaseUrl = "https://yyygruoaphtgzslboctz.supabase.co";
 const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc";
@@ -21,14 +20,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Page() {
   const [users, setUsers] = useState([]);
-  const [keys, setKeys] = useState([]); // Estado para las claves
+  const [keys, setKeys] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filterText, setFilterText] = useState(""); // Estado para filtrar usuarios
+  const [filterText, setFilterText] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     async function checkAdminAndFetchData() {
-      // 1. Verificar la sesión del usuario
       const {
         data: { session },
         error: sessionError,
@@ -46,7 +44,6 @@ export default function Page() {
         return;
       }
 
-      // 2. Verificar que el usuario sea admin consultando la tabla "admin"
       const userEmail = session.user.email;
       const { data: adminData, error: adminError } = await supabase
         .from("admin")
@@ -66,7 +63,6 @@ export default function Page() {
         return;
       }
 
-      // 3. Si pasó la verificación, obtener los datos de usuarios y claves
       const { data: usersData, error: usersError } = await GET_USERS();
       if (usersError) alert("Error al obtener usuarios: " + usersError.message);
       else setUsers(usersData);
@@ -140,7 +136,6 @@ export default function Page() {
             <h2>Gestión de Claves</h2>
           </div>
           <div className="card-body" style={{ backgroundColor: "#1f2431" }}>
-            {/* Sección de gestión de claves */}
             <div className="mb-5">
               <button
                 className="btn btn-success mb-3"
@@ -169,7 +164,6 @@ export default function Page() {
             <div className="card-header bg-color text-white text-center p-3">
               <h2>Usuarios Registrados</h2>
             </div>
-            {/* Input de búsqueda para filtrar por nombre */}
             <div className="mb-3">
               <input
                 type="text"

@@ -21,7 +21,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Registra los componentes de Chart.js
+// Componentes Chart
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -48,8 +48,8 @@ export default function Page() {
       {
         label: "Peso",
         data: [],
-        borderColor: "#FF6347", // Naranja (como el botón)
-        backgroundColor: "rgba(255, 99, 71, 0.2)", // Naranja con opacidad
+        borderColor: "#FF6347",
+        backgroundColor: "rgba(255, 99, 71, 0.2)",
         fill: true,
       },
     ],
@@ -90,7 +90,7 @@ export default function Page() {
     if (measures.length > 0) {
       const sortedMeasures = measures.sort(
         (a, b) => new Date(a.fecha) - new Date(b.fecha)
-      ); // Ordena las medidas por fecha
+      ); // Ordenada por fecha
       const dates = sortedMeasures.map((measure) => measure.fecha);
       const weights = sortedMeasures.map((measure) => measure.peso);
 
@@ -144,7 +144,7 @@ export default function Page() {
       <div className="container mt-5">
         <h1 className="mb-4 text-white">Medidas Corporales</h1>
 
-        {/* Formulario para ingresar medida */}
+        {/* Formulario  */}
         <div className="card p-4" style={{ backgroundColor: "#585953" }}>
           <h3 className="text-white">Registrar Medida</h3>
           <form onSubmit={handleSaveMeasure}>
@@ -194,7 +194,7 @@ export default function Page() {
           </form>
         </div>
 
-        {/* Tabla de medidas registradas */}
+        {/* Tabla de medidas */}
         <div className="card mt-4 p-4">
           <h3 className="text-white">Mis Medidas Registradas</h3>
           {measures.length > 0 ? (
@@ -219,7 +219,6 @@ export default function Page() {
           )}
         </div>
 
-        {/* Gráfico de pesos */}
         <div className="card mt-4 p-4" style={{ backgroundColor: "#585953" }}>
           <h3 className="text-white">Gráfica de Pesos</h3>
           <Line
@@ -260,7 +259,6 @@ export default function Page() {
       </div>
 
       <Footer />
-      {/* Contenedor de notificaciones */}
       <ToastContainer
         position="top-right"
         autoClose={3000}

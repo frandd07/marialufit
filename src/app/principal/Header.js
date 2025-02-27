@@ -4,17 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Header() {
   useEffect(() => {
-    // Importa dinámicamente el JS de Bootstrap solo en el cliente
     import("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
 
   return (
     <>
       <header>
-        {/* Navbar */}
         <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
           <div className="container">
-            {/* Logo para móviles */}
             <a className="navbar-brand d-lg-none" href="#">
               <img
                 src="/images/logo.png"
@@ -22,7 +19,6 @@ export default function Header() {
                 style={{ height: "60px" }}
               />
             </a>
-            {/* Botón hamburguesa */}
             <button
               className="navbar-toggler"
               type="button"
@@ -34,7 +30,6 @@ export default function Header() {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            {/* Contenedor del menú colapsable */}
             <div className="collapse navbar-collapse" id="navbarNav">
               <div className="d-flex w-100 justify-content-between align-items-center">
                 <ul className="navbar-nav">
@@ -49,7 +44,6 @@ export default function Header() {
                     </a>
                   </li>
                 </ul>
-                {/* Logo para desktop */}
                 <a className="navbar-brand d-none d-lg-block" href="#">
                   <img
                     src="/images/logo.png"
@@ -63,7 +57,6 @@ export default function Header() {
                       Entrenamientos
                     </a>
                   </li>
-                  {/* Se ha eliminado cualquier otra parte de "Sobre mi" en el header */}
                   <li className="nav-item">
                     <a className="nav-link" href="../login">
                       <i className="bi bi-person"></i>
@@ -74,8 +67,6 @@ export default function Header() {
             </div>
           </div>
         </nav>
-
-        {/* Imagen de fondo con Título, Subtítulo y Botón */}
         <div
           className="hero d-flex flex-column justify-content-center align-items-center text-center"
           style={{
@@ -106,7 +97,6 @@ export default function Header() {
           >
             TRUST THE PROCESS
           </p>
-          {/* Botón con degradado naranja más oscuro */}
           <a
             href="#quiensoybueno"
             className="btn btn-lg mt-4"
@@ -125,7 +115,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Estilos para ajustar el tamaño del título en móviles */}
       <style>{`
         @media (max-width: 768px) {
           .hero-title {

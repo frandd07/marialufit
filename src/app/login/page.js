@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { LOGIN, REGISTER } from "../api/login/route";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./Header";
-import Footer from "./Footer"; // Importa el footer
+import Footer from "./Footer";
 
 export default function AuthPage() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -47,7 +47,6 @@ export default function AuthPage() {
             message: "Registro exitoso. Ahora puedes iniciar sesión.",
           });
           setIsRegistering(false);
-          // Limpiar campos de registro
           setClave("");
           setNombre("");
           setApellido1("");
@@ -78,26 +77,21 @@ export default function AuthPage() {
       className="d-flex flex-column min-vh-100"
       style={{ backgroundColor: "#585953" }}
     >
-      {/* Header en la parte superior */}
       <Header />
-
-      {/* Contenido principal */}
       <main
         className="flex-grow-1 d-flex align-items-center justify-content-center"
-        style={{ padding: "20px", paddingTop: "60px" }} // paddingTop extra para separar del header
+        style={{ padding: "20px", paddingTop: "60px" }}
       >
-        {/* Tarjeta central que contiene imagen y formulario */}
         <div
           className="row w-100 mt-5"
           style={{
             maxWidth: "1000px",
-            minHeight: "80vh", // se expande según el contenido (registro)
+            minHeight: "80vh",
             borderRadius: "12px",
             overflow: "hidden",
             boxShadow: "0px 8px 25px rgba(0, 0, 0, 0.5)",
           }}
         >
-          {/* Columna de la imagen */}
           <div className="col-12 col-md-6 p-0">
             <img
               src="/images/img_principal.jpg"
@@ -107,7 +101,6 @@ export default function AuthPage() {
             />
           </div>
 
-          {/* Columna del formulario */}
           <div
             className="col-12 col-md-6 d-flex align-items-center justify-content-center"
             style={{ backgroundColor: "#2c2f38", padding: "30px" }}
@@ -277,7 +270,7 @@ export default function AuthPage() {
                       onClick={() => {
                         setAlert(null);
                         setIsRegistering(false);
-                        // Limpiar campos de registro
+
                         setClave("");
                         setNombre("");
                         setApellido1("");
@@ -310,7 +303,6 @@ export default function AuthPage() {
         </div>
       </main>
 
-      {/* Footer al final */}
       <Footer />
     </div>
   );

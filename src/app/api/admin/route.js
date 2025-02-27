@@ -8,7 +8,6 @@ const supabase = createClient(supabaseUrl, serviceRoleKey, {
   auth: { persistSession: false },
 });
 
-// Función actualizada para obtener los usuarios usando "correo" en lugar de "email"
 export async function GET_USERS() {
   const { data, error } = await supabase
     .from("usuario")
@@ -18,7 +17,7 @@ export async function GET_USERS() {
     return { error };
   }
 
-  return { data }; // Devuelve los usuarios con los campos especificados
+  return { data };
 }
 
 export async function TOGGLE_USER_ACTIVE(userId, isActive) {
@@ -31,11 +30,11 @@ export async function TOGGLE_USER_ACTIVE(userId, isActive) {
     return { error };
   }
 
-  return { data }; // Devuelve los datos actualizados
+  return { data };
 }
 
 export async function CREATE_KEY() {
-  const newKey = Math.floor(1000000000 + Math.random() * 9000000000); // Genera un número de 10 dígitos
+  const newKey = Math.floor(1000000000 + Math.random() * 9000000000);
   const { data, error } = await supabase.from("clave").insert([{ id: newKey }]);
 
   if (error) {

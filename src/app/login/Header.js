@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// Configurar Supabase
 const supabase = createClient(
   "https://yyygruoaphtgzslboctz.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl5eWdydW9hcGh0Z3pzbGJvY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY5MzIzNTksImV4cCI6MjA1MjUwODM1OX0.VhSXy_aiYI7cbX98dccssSe1EFI9dSRhFpXw1_6ngVc"
@@ -15,7 +14,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/login"); // Redirige a la página de login
+    router.push("/login");
   };
 
   return (
@@ -25,12 +24,11 @@ export default function Header() {
         style={{ backgroundColor: "#202434" }}
       >
         <div className="container d-flex justify-content-between align-items-center">
-          {/* Logo en el centro */}
           <a className="navbar-brand mx-auto" href="/principal">
             <img
               src="/images/logo.png"
               alt="MarialuFit Logo"
-              style={{ height: "60px" }} // Ajustado para que sea menos grande
+              style={{ height: "60px" }}
             />
           </a>
         </div>

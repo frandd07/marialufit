@@ -20,10 +20,10 @@ export default function Footer() {
 
     emailjs
       .sendForm(
-        "service_7c3vjfy", // Reemplaza con tu Service ID de EmailJS
-        "template_vf3tkm9", // Reemplaza con tu Template ID de EmailJS
+        "service_7c3vjfy",
+        "template_vf3tkm9",
         e.target,
-        "Pef4ege9sttw8eoJS" // Reemplaza con tu Public Key de EmailJS
+        "Pef4ege9sttw8eoJS"
       )
       .then(
         (result) => {

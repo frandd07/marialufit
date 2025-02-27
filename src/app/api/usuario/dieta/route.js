@@ -16,7 +16,7 @@ export async function GET(request) {
     });
   }
 
-  // Verificar si existe el usuario con ese UUID
+  // Si existe usuario
   const { data: usuarioData, error: usuarioError } = await supabase
     .from("usuario")
     .select("id, correo, fk_id")
@@ -32,7 +32,7 @@ export async function GET(request) {
     });
   }
 
-  // Verificar que existan dietas asociadas al id del usuario
+  // Dietas de usuario
   const { data: dietasData, error: dietasError } = await supabase
     .from("dieta")
     .select("*")

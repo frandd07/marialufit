@@ -7,7 +7,6 @@ export default function Entrenamientos() {
     <section id="entrenamientos" className="container my-5">
       <div className="row justify-content-center">
         <h2 className="text-center text-white py-5"></h2>
-        {/* Card Entrenamiento Presencial */}
         <div className="col-md-5 mx-2 mb-4">
           <div
             className="card text-white shadow-lg border-0"
@@ -28,7 +27,6 @@ export default function Entrenamientos() {
           </div>
         </div>
 
-        {/* Card Entrenamiento Online */}
         <div className="col-md-5 mx-2 mb-4">
           <div
             className="card text-white shadow-lg border-0"

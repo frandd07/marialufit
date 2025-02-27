@@ -5,7 +5,6 @@ import { createClient } from "@supabase/supabase-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-// Configurar Supabase
 const supabase = createClient("https://xxx.supabase.co", "TOKEN_AQUI");
 
 export default function Header() {
@@ -13,7 +12,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/login"); // Redirige a la página de login
+    router.push("/login");
   };
 
   return (
@@ -23,7 +22,6 @@ export default function Header() {
         style={{ backgroundColor: "#202434" }}
       >
         <div className="container">
-          {/* LOGO (centrado en pantallas grandes, pero a la izquierda en móviles) */}
           <a className="navbar-brand mx-lg-auto" href="#">
             <img
               src="/images/logo.png"
@@ -31,8 +29,6 @@ export default function Header() {
               style={{ height: "80px" }}
             />
           </a>
-
-          {/* BOTÓN HAMBURGUESA (visible en pantallas pequeñas) */}
           <button
             className="navbar-toggler"
             type="button"
@@ -45,7 +41,6 @@ export default function Header() {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {/* Menú de navegación colapsable */}
           <div
             className="collapse navbar-collapse justify-content-center"
             id="navbarNav"

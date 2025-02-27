@@ -40,8 +40,8 @@ export async function POST(request) {
     nombre,
     grupo_muscular,
     series,
-    repes, // Repeticiones asignadas por el admin
-    repeticiones_usuario, // Repeticiones que completara el usuario
+    repes,
+    repeticiones_usuario,
     tut,
     rir,
     descanso,
