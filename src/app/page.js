@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const route = useRouter();
-  route.push("/principal/page.js");
+  route.push("/principal/");
   return (
     <div className={styles.page}>
       <main className={styles.main}>
